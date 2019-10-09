@@ -15,4 +15,5 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->get('/customer', ['uses' => 'CustomerController@searchCustomer']);
+$router->get('/customer', 'CustomerController@findAll');
+$router->post('/customer', 'CustomerController@create');
