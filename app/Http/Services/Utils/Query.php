@@ -6,7 +6,7 @@ use Laravel\Lumen\Routing\Controller as BaseController;
 
 class Query extends BaseController
 {
-  protected static function filterAllowedField($allowed, $fields) {
+  public static function filterAllowedField($allowed, $fields) {
     $filtered = array_filter(
       $fields,
       function ($key) use ($allowed) {
@@ -18,7 +18,7 @@ class Query extends BaseController
     return $filtered;
   }
 
-  protected static function filterDisallowField($query, $filtered) {
+  public static function filterDisallowField($query, $filtered) {
     return array_diff($query, $filtered);
   }
 
