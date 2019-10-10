@@ -4,6 +4,7 @@ namespace App\Http\Services\Utils;
 use App\Model\Mysql\Increment as Model;
 
 use Laravel\Lumen\Routing\Controller as BaseController;
+use DB;
 
 class Increment extends BaseController
 {
@@ -31,6 +32,7 @@ class Increment extends BaseController
   public static function createNewNumber($type) {
     $findNumber = Increment::findOne(['type' => $type]);
     $lastNumber = 0;
+
     if ($findNumber) {
       $lastNumber = $findNumber['value'] + 1;
       Increment::update([
@@ -39,11 +41,16 @@ class Increment extends BaseController
       ], $findNumber['id']);
     } else {
       $lastNumber = Increment::insert([
-        'type' => 'PERSONNO',
+        'type' => $type,
         "description" => \env('TYPE_NUMBER').'900000001',
         "value" => 900000001
       ])['value'];
     }
     return $lastNumber;
+  }
+
+  public static function GETPERSONID() {
+    $PERSONID = DB::connection('firebird')->select("EXECUTE PROCEDURE GETPERSONID")[0];
+    return $PERSONID ? $PERSONID->PERSONID : 0;
   }
 }
