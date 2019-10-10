@@ -27,4 +27,23 @@ class Increment extends BaseController
   public static function update ($data, $id) {
     return Model::where('id', $id)->update($data);
   }
+
+  public static function createNewNumber($type) {
+    $findNumber = Increment::findOne(['type' => $type]);
+    $lastNumber = 0;
+    if ($findNumber) {
+      $lastNumber = $findNumber['value'] + 1;
+      Increment::update([
+        "description" => \env('TYPE_NUMBER').$lastNumber,
+        "value" => $lastNumber
+      ], $findNumber['id']);
+    } else {
+      $lastNumber = Increment::insert([
+        'type' => 'PERSONNO',
+        "description" => \env('TYPE_NUMBER').'900000001',
+        "value" => 900000001
+      ])['value'];
+    }
+    return $lastNumber;
+  }
 }
