@@ -40,6 +40,10 @@ class CustomerController extends BaseController
     }
   }
 
+  function findOne($id) {
+    return Service::findById($id);
+  }
+
   function create(Request $request) {
     try {
       $create = Service::insert($request->all());

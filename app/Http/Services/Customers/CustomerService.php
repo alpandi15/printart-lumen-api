@@ -11,12 +11,16 @@ use App\Model\Accurate\PERSONDATA;
 class CustomerService extends BaseController
 {
   public static function getAll($query) {
+    $FIELDS = ['ID','PERSONNO','NAME', 'PERSONTYPE', 'PHONE', 'EMAIL', 'ADDRESSLINE1', 'PRICELEVEL', 'CITY', 'TRANSACTIONID', 'CUSTOMERTYPEID', 'CREDITLIMITDAYS', 'CREDITLIMIT'];
     $model = new PERSONDATA();
-    $FIELDS = ['ID','PERSONNO','NAME'];
     $query['PERSONTYPE'] = 0;
     $query['SUSPENDED'] = 0;
     $data = Query::Paginate($model, $query, $FIELDS);
     return $data;
+  }
+
+  public static function findById($id) {
+    return PERSONDATA::find($id);
   }
 
   public static function insert($request) {
@@ -56,5 +60,9 @@ class CustomerService extends BaseController
       return $insert;
     }
     return null;
+  }
+
+  public static function update($request) {
+
   }
 }
