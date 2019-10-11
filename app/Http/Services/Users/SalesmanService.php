@@ -17,7 +17,7 @@ class SalesmanService extends BaseController
 
   public static function findById($id, $FIELDS = null) {
     return Model::select($FIELDS ?: '*')
-    ->where('USERID', $id)->first();
+    ->where('SALESMANID', $id)->first();
   }
 
   public static function insert($data) {
