@@ -61,7 +61,7 @@ class Query extends BaseController
     $data = $data->where(function($q) use ($fields, $keyword, $otherFilter) {
       if ($keyword) {
         foreach($fields as $column) {
-          $q = $q->orWhere($column,'LIKE','%'.strtoupper($keyword).'%');
+          $q = $q->orWhere($column,'LIKE','%'.$keyword.'%');
         }
       }
       $q->where($otherFilter);
@@ -122,7 +122,7 @@ class Query extends BaseController
     $data = $data->where(function($q) use ($fields, $keyword, $otherFilter) {
       if ($keyword) {
         foreach($fields as $column) {
-          $q = $q->orWhere($column,'LIKE','%'.strtoupper($keyword).'%');
+          $q = $q->orWhere($column,'LIKE','%'.$keyword.'%');
         }
       }
       $q->where($otherFilter);
