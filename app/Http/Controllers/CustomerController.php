@@ -34,14 +34,26 @@ class CustomerController extends BaseController
         "message"=>"Error"
       ], "Error");
     } catch (Exception $e) {
-      return ResponseService::ApiError(404, [
+      return ResponseService::ApiError(422, [
         "message"=>"Error"
       ], $e);
     }
   }
 
   function findOne($id) {
-    return Service::findById($id);
+    try {
+      $data = Service::findById($id);
+      if ($data) {
+        return ResponseService::ApiSuccess(200, [
+          "message"=>"Success",
+        ], $data);
+      }
+      return ResponseService::ApiError(404, "Customer not found");
+    } catch (Exception $e) {
+      return ResponseService::ApiError(422, [
+        "message"=>"Error"
+      ], $e);
+    }
   }
 
   function create(Request $request) {
@@ -52,11 +64,31 @@ class CustomerController extends BaseController
           "message"=>"Successfully Created Customer"
         ], $create);
       }
-      return ResponseService::ApiError(404, [
+      return ResponseService::ApiError(422, [
         "message"=>"Error"
       ], "Error");
     } catch (Exception $e) {
-      return ResponseService::ApiError(404, [
+      return ResponseService::ApiError(422, [
+        "message"=>"Error"
+      ], $e);
+    }
+  }
+
+  function edit(Request $request, $id) {
+    try {
+      $find = Service::findById($id);
+      if ($find) { 
+        $update = Service::update($id, $request->all());
+        if ($update) {
+          return ResponseService::ApiSuccess(200, [
+            "message"=>"Successfully Updated Customer"
+          ], $update);
+        }
+        return ResponseService::ApiError(422, "Error updating customer");
+      }
+      return ResponseService::ApiError(404, "Customer not found");
+    } catch (Exception $e) {
+      return ResponseService::ApiError(422, [
         "message"=>"Error"
       ], $e);
     }

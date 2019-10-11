@@ -66,5 +66,17 @@ class CustomerService extends BaseController
   }
 
   public static function update($id, $request) {
+    $update = PERSONDATA::find($id);
+    $update->NAME = isset($request['name']) ? strtoupper($request['name']) : null;
+    $update->PHONE = isset($request['phone']) ? $request['phone'] : null;
+    $update->EMAIL = isset($request['email']) ? $request['email']: null;
+    $update->ADDRESSLINE1 = isset($request['address']) ? $request['address'] : null;
+    $update->PRICELEVEL = isset($request['priceLevel']) ? $request['priceLevel'] : null;
+    $update->CITY = isset($request['city']) ? $request['city'] : null;
+    $update->CREDITLIMITDAYS = isset($request['creaditLimitDays']) ? $request['creaditLimitDays'] : null;
+    $update->CREDITLIMIT = isset($request['creaditLimit']) ? CurrencyFormat::ABS($request['creaditLimit']) : 0;
+    $update->save();
+
+    return $update;
   }
 }
