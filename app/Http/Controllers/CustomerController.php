@@ -93,4 +93,24 @@ class CustomerController extends BaseController
       ], $e);
     }
   }
+
+  function destroy($id) {
+    try {
+      $data = Service::findById($id);
+      if ($data) {
+        $delete = Service::delete($id);
+        if ($delete) {
+          return ResponseService::ApiSuccess(200, [
+            "message"=>"Successfully Deleted Customer",
+          ], $delete);
+        }
+        return ResponseService::ApiError(404, "Error updating customer");
+      }
+      return ResponseService::ApiError(404, "Customer not found");
+    } catch (Exception $e) {
+      return ResponseService::ApiError(422, [
+        "message"=>"Error"
+      ], $e);
+    }
+  }
 }

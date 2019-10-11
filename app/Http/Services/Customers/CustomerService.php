@@ -62,7 +62,7 @@ class CustomerService extends BaseController
   
       return $insert;
     }
-    return null;
+    return false;
   }
 
   public static function update($id, $request) {
@@ -77,6 +77,15 @@ class CustomerService extends BaseController
     $update->CREDITLIMIT = isset($request['creaditLimit']) ? CurrencyFormat::ABS($request['creaditLimit']) : 0;
     $update->save();
 
-    return $update;
+    if ($update) {
+      return $update;
+    }
+    return false;
+  }
+
+  public static function delete($id) {
+    $delete = PERSONDATA::where('ID', $id)->delete();
+    if ($delete) return $delete;
+    return false;
   }
 }

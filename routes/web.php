@@ -19,3 +19,4 @@ $router->get('/customer', 'CustomerController@findAll');
 $router->get('/customer/{id}', 'CustomerController@findOne');
 $router->post('/customer', 'CustomerController@create');
 $router->put('/customer/{id}', 'CustomerController@edit');
+$router->delete('/customer/{id}', 'CustomerController@destroy');
