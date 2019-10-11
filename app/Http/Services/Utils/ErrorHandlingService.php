@@ -18,7 +18,7 @@ class ErrorHandlingService extends BaseController
     return response()->json([
       "success" => false,
       "meta" => $message,
-      "detail" => $detail
+      "detail" => $detail ? $detail : $message
     ], $code);
   }
 }
