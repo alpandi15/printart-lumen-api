@@ -145,4 +145,17 @@ class UsersController extends BaseController
       ], $e);
     }
   }
+
+  function countData(Request $request) {
+    try {
+      $data = Service::count($request->all(), $this->fillable);
+      return ResponseService::ApiSuccess(200, [
+        "message"=>"Success"
+      ], ["count"=>$data]);
+    } catch (Exception $e) {
+      return ResponseService::ApiError(422, [
+        "message"=>"Error"
+      ], $e);
+    }
+  }
 }

@@ -73,4 +73,10 @@ class UserService extends BaseController
     if ($delete) return $delete;
     return false;
   }
+
+  public static function count($query, $FIELDS = null) {
+    $model = new Model();
+    $count = Query::countData($model, $query, $FIELDS);
+    return $count;
+  }
 }
