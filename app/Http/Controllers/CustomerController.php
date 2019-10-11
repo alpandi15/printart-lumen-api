@@ -60,7 +60,7 @@ class CustomerController extends BaseController
     try {
       $create = Service::insert($request->all());
       if ($create) {
-        return ResponseService::ApiSuccess(200, [
+        return ResponseService::ApiSuccess(201, [
           "message"=>"Successfully Created Customer"
         ], $create);
       }

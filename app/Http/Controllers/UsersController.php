@@ -92,13 +92,33 @@ class UsersController extends BaseController
     try {
       $create = Service::insert($request->all());
       if ($create) {
-        return ResponseService::ApiSuccess(200, [
+        return ResponseService::ApiSuccess(201, [
           "message"=>"Successfully Created User"
         ], $create);
       }
       return ResponseService::ApiError(422, [
-        "message"=>"Error"
+        "message"=>"Error Creating User"
       ], "Error");
+    } catch (Exception $e) {
+      return ResponseService::ApiError(422, [
+        "message"=>"Error"
+      ], $e);
+    }
+  }
+
+  function edit(Request $request, $id) {
+    try {
+      $find = Service::findById($id);
+      if ($find) { 
+        $update = Service::update($id, $request->all());
+        if ($update) {
+          return ResponseService::ApiSuccess(200, [
+            "message"=>"Successfully Updated User"
+          ], $update);
+        }
+        return ResponseService::ApiError(422, "Error Updating User");
+      }
+      return ResponseService::ApiError(404, "User not found");
     } catch (Exception $e) {
       return ResponseService::ApiError(422, [
         "message"=>"Error"

@@ -56,4 +56,15 @@ class UserService extends BaseController
     if ($insert) return $insert;
     return false;
   }
+
+  public static function update($id, $data) {
+    $update = Model::where('USERID', $id)->update([
+      "USERNAME" => isset($data['username']) ? $data['username'] : null,
+      "USERLEVEL" => isset($data['userLevel']) ? $data['userLevel'] : 0,
+      "FULLNAME" => isset($data['fullName']) ? $data['fullName'] : null,
+    ]);
+
+    if ($update) return $update;
+    return false;
+  }
 }
