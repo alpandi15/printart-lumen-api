@@ -4,10 +4,8 @@ namespace App\Http\Controllers;
 
 use Laravel\Lumen\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use App\Http\Services\Users\UserService as Service;
 use App\Http\Services\Utils\Query;
-use App\Http\Services\Utils\ExternalAuth;
 use App\Http\Services\Utils\ErrorHandlingService as ResponseService;
 
 class UsersController extends BaseController

@@ -11,8 +11,7 @@ use App\Model\Accurate\PERSONDATA;
 
 class CustomerService extends BaseController
 {
-  public static function getAll($query) {
-    $FIELDS = ['ID','PERSONNO','NAME', 'PERSONTYPE', 'PHONE', 'EMAIL', 'ADDRESSLINE1', 'PRICELEVEL', 'CITY', 'TRANSACTIONID', 'CUSTOMERTYPEID', 'CREDITLIMITDAYS', 'CREDITLIMIT'];
+  public static function getAll($query, $FIELDS = null) {
     $model = new PERSONDATA();
     $query['PERSONTYPE'] = 0;
     $query['SUSPENDED'] = 0;
@@ -20,8 +19,7 @@ class CustomerService extends BaseController
     return $data;
   }
 
-  public static function findById($id) {
-    $FIELDS = ['ID','PERSONNO','NAME', 'PERSONTYPE', 'PHONE', 'EMAIL', 'ADDRESSLINE1', 'PRICELEVEL', 'CITY', 'TRANSACTIONID', 'CUSTOMERTYPEID', 'CREDITLIMITDAYS', 'CREDITLIMIT'];
+  public static function findById($id, $FIELDS = null) {
     return PERSONDATA::select($FIELDS)
     ->where('ID', $id)->first();
   }
@@ -87,5 +85,11 @@ class CustomerService extends BaseController
     $delete = PERSONDATA::where('ID', $id)->delete();
     if ($delete) return $delete;
     return false;
+  }
+
+  public static function count($query, $FIELDS = null) {
+    $model = new PERSONDATA();
+    $count = Query::countData($model, $query, $FIELDS);
+    return $count;
   }
 }

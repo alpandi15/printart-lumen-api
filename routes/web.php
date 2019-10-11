@@ -21,6 +21,7 @@ $router->group(['prefix' => env('API_VERSION'), 'middleware' => 'externalAuth'],
     $route->post('/customer', 'CustomerController@create');
     $route->put('/customer/{id}', 'CustomerController@edit');
     $route->delete('/customer/{id}', 'CustomerController@destroy');
+    $route->get('/customer-count', 'CustomerController@countData');
     
     $route->get('/users/{id}', 'UsersController@findOne');
     $route->get('/users', 'UsersController@findAll');
