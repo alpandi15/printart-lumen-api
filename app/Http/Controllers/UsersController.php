@@ -87,4 +87,22 @@ class UsersController extends BaseController
       ], $e);
     }
   }
+
+  function create(Request $request) {
+    try {
+      $create = Service::insert($request->all());
+      if ($create) {
+        return ResponseService::ApiSuccess(200, [
+          "message"=>"Successfully Created User"
+        ], $create);
+      }
+      return ResponseService::ApiError(422, [
+        "message"=>"Error"
+      ], "Error");
+    } catch (Exception $e) {
+      return ResponseService::ApiError(422, [
+        "message"=>"Error"
+      ], $e);
+    }
+  }
 }
