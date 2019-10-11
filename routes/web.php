@@ -30,10 +30,10 @@ $router->group(['prefix' => env('API_VERSION'), 'middleware' => 'externalAuth'],
     $route->delete('/users/{id}', 'UsersController@destroy');
     $route->get('/users-count', 'UsersController@countData');
 
-    $route->get('/users/{id}', 'UsersController@findOne');
-    $route->get('/users', 'UsersController@findAll');
-    $route->post('/users', 'UsersController@create');
-    $route->put('/users/{id}', 'UsersController@edit');
-    $route->delete('/users/{id}', 'UsersController@destroy');
-    $route->get('/users-count', 'UsersController@countData');
+    $route->get('/salesman/{id}', 'UsersController@findOne');
+    $route->get('/salesman', 'UsersController@findAll');
+    $route->post('/salesman', 'UsersController@create');
+    $route->put('/salesman/{id}', 'UsersController@edit');
+    $route->delete('/salesman/{id}', 'UsersController@destroy');
+    $route->get('/salesman-count', 'UsersController@countData');
 });
