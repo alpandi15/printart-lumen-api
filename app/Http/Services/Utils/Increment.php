@@ -50,7 +50,12 @@ class Increment extends BaseController
   }
 
   public static function GETPERSONID() {
-    $PERSONID = DB::connection('firebird')->select("EXECUTE PROCEDURE GETPERSONID")[0];
-    return $PERSONID ? $PERSONID->PERSONID : 0;
+    $PERSONID = DB::connection('firebird')->select("EXECUTE PROCEDURE GETPERSONID");
+    return $PERSONID ? $PERSONID[0]->PERSONID : 0;
+  }
+
+  public static function GETUSERID() {
+    $GETUSERID = DB::connection('firebird')->select("EXECUTE PROCEDURE GETUSERID");
+    return $GETUSERID ? $GETUSERID[0]->USERID : 0;
   }
 }
