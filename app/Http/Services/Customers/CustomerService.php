@@ -5,6 +5,7 @@ namespace App\Http\Services\Customers;
 use Laravel\Lumen\Routing\Controller as BaseController;
 use App\Http\Services\Utils\Query;
 use App\Http\Services\Utils\Increment;
+use App\Http\Services\Utils\CurrencyFormat;
 use App\Http\Services\History\TransHistoryService;
 use App\Model\Accurate\PERSONDATA;
 
@@ -20,7 +21,9 @@ class CustomerService extends BaseController
   }
 
   public static function findById($id) {
-    return PERSONDATA::find($id);
+    $FIELDS = ['ID','PERSONNO','NAME', 'PERSONTYPE', 'PHONE', 'EMAIL', 'ADDRESSLINE1', 'PRICELEVEL', 'CITY', 'TRANSACTIONID', 'CUSTOMERTYPEID', 'CREDITLIMITDAYS', 'CREDITLIMIT'];
+    return PERSONDATA::select($FIELDS)
+    ->where('ID', $id)->first();
   }
 
   public static function insert($request) {
@@ -42,19 +45,19 @@ class CustomerService extends BaseController
       $insert->ID = $PERSONID;
       $insert->PERSONNO = env('TYPE_NUMBER').$PERSONNO;
       $insert->PERSONTYPE = 0;
-      $insert->NAME = strtoupper($request['name']);
-      $insert->PHONE = $request['phone'];
-      $insert->EMAIL = $request['email'];
-      $insert->ADDRESSLINE1 = $request['address'];
-      $insert->PRICELEVEL = $request['priceLevel'];
-      $insert->CITY = $request['city'];
+      $insert->NAME = isset($request['name']) ? strtoupper($request['name']) : null;
+      $insert->PHONE = isset($request['phone']) ? $request['phone'] : null;
+      $insert->EMAIL = isset($request['email']) ? $request['email']: null;
+      $insert->ADDRESSLINE1 = isset($request['address']) ? $request['address'] : null;
+      $insert->PRICELEVEL = isset($request['priceLevel']) ? $request['priceLevel'] : null;
+      $insert->CITY = isset($request['city']) ? $request['city'] : null;
       $insert->CURRENCYID = 1;
       $insert->TRANSACTIONID = $TRANSACTIONID;
       $insert->TERMSID = 1;
       $insert->CUSTOMERTYPEID = 1;
       $insert->BRANCHCODEID = 1;
-      $insert->CREDITLIMITDAYS = $request['creaditLimitDays'];
-      $insert->CREDITLIMIT = number_format((float)$request['creaditLimit'], 4, '.', '');
+      $insert->CREDITLIMITDAYS = isset($request['creaditLimitDays']) ? $request['creaditLimitDays'] : null;
+      $insert->CREDITLIMIT = isset($request['creaditLimit']) ? CurrencyFormat::ABS($request['creaditLimit']) : 0;
       $insert->save();
   
       return $insert;
@@ -62,7 +65,6 @@ class CustomerService extends BaseController
     return null;
   }
 
-  public static function update($request) {
-
+  public static function update($id, $request) {
   }
 }
