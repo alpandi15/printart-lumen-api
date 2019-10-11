@@ -12,13 +12,13 @@ class SALESMAN extends Model
     public $incrementing = false;
     protected $primaryKey = 'SALESMANID';
 
-  protected $fillable = [
-    'SALESMANID',
-    'LASTNAME',
-    'FIRSTNAME',
-    'JOBTITLE',
-    'SALESMANNAME',
-    'BRANCHCODEID',
-    'TRANSACTIONID'
-  ];
+    protected $fillable = [
+        'SALESMANID',
+        'LASTNAME',
+        'FIRSTNAME',
+        'JOBTITLE',
+        'SALESMANNAME',
+        'BRANCHCODEID',
+        'TRANSACTIONID'
+    ];
 }
