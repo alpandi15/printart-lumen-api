@@ -67,4 +67,10 @@ class UserService extends BaseController
     if ($update) return $update;
     return false;
   }
+
+  public static function delete($id) {
+    $delete = Model::where('USERID', $id)->delete();
+    if ($delete) return $delete;
+    return false;
+  }
 }

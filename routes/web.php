@@ -26,4 +26,5 @@ $router->group(['prefix' => env('API_VERSION'), 'middleware' => 'externalAuth'],
     $route->get('/users', 'UsersController@findAll');
     $route->post('/users', 'UsersController@create');
     $route->put('/users/{id}', 'UsersController@edit');
+    $route->delete('/users/{id}', 'UsersController@destroy');
 });

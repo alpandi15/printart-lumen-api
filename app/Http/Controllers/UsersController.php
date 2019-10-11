@@ -125,4 +125,24 @@ class UsersController extends BaseController
       ], $e);
     }
   }
+
+  function destroy($id) {
+    try {
+      $data = Service::findById($id);
+      if ($data) {
+        $delete = Service::delete($id);
+        if ($delete) {
+          return ResponseService::ApiSuccess(200, [
+            "message"=>"Successfully Deleted User",
+          ], $delete);
+        }
+        return ResponseService::ApiError(404, "Error Updating User");
+      }
+      return ResponseService::ApiError(404, "User not found");
+    } catch (Exception $e) {
+      return ResponseService::ApiError(422, [
+        "message"=>"Error"
+      ], $e);
+    }
+  }
 }
