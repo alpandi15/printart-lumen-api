@@ -11,4 +11,14 @@ class SALESMAN extends Model
     public $timestamps = false;
     public $incrementing = false;
     protected $primaryKey = 'SALESMANID';
+
+  protected $fillable = [
+    'SALESMANID',
+    'LASTNAME',
+    'FIRSTNAME',
+    'JOBTITLE',
+    'SALESMANNAME',
+    'BRANCHCODEID',
+    'TRANSACTIONID'
+  ];
 }
