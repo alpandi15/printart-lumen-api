@@ -15,8 +15,12 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->get('/customer', 'CustomerController@findAll');
-$router->get('/customer/{id}', 'CustomerController@findOne');
-$router->post('/customer', 'CustomerController@create');
-$router->put('/customer/{id}', 'CustomerController@edit');
-$router->delete('/customer/{id}', 'CustomerController@destroy');
+$router->group(['prefix' => env('API_VERSION'), 'middleware' => 'externalAuth'], function ($route) {
+    $route->get('/customer', 'CustomerController@findAll');
+    $route->get('/customer/{id}', 'CustomerController@findOne');
+    $route->post('/customer', 'CustomerController@create');
+    $route->put('/customer/{id}', 'CustomerController@edit');
+    $route->delete('/customer/{id}', 'CustomerController@destroy');
+    
+    $route->get('/users/{id}', 'UsersController@findOne');
+});
