@@ -23,4 +23,5 @@ $router->group(['prefix' => env('API_VERSION'), 'middleware' => 'externalAuth'],
     $route->delete('/customer/{id}', 'CustomerController@destroy');
     
     $route->get('/users/{id}', 'UsersController@findOne');
+    $route->get('/users', 'UsersController@findAll');
 });
