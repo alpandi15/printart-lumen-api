@@ -71,11 +71,11 @@ class SalesmanController extends BaseController
       $create = Service::insert($request->all());
       if ($create) {
         return ResponseService::ApiSuccess(201, [
-          "message"=>"Successfully Created User"
+          "message"=>"Successfully Created Salesman"
         ], $create);
       }
       return ResponseService::ApiError(422, [
-        "message"=>"Error Creating User"
+        "message"=>"Error Creating Salesman"
       ], "Error");
     } catch (Exception $e) {
       return ResponseService::ApiError(422, [
@@ -91,12 +91,12 @@ class SalesmanController extends BaseController
         $update = Service::update($id, $request->all());
         if ($update) {
           return ResponseService::ApiSuccess(200, [
-            "message"=>"Successfully Updated User"
+            "message"=>"Successfully Updated Salesman"
           ], $update);
         }
-        return ResponseService::ApiError(422, "Error Updating User");
+        return ResponseService::ApiError(422, "Error Updating Salesman");
       }
-      return ResponseService::ApiError(404, "User not found");
+      return ResponseService::ApiError(404, "Salesman not found");
     } catch (Exception $e) {
       return ResponseService::ApiError(422, [
         "message"=>"Error"
@@ -111,12 +111,12 @@ class SalesmanController extends BaseController
         $delete = Service::delete($id);
         if ($delete) {
           return ResponseService::ApiSuccess(200, [
-            "message"=>"Successfully Deleted User",
+            "message"=>"Successfully Deleted Salesman",
           ], $delete);
         }
-        return ResponseService::ApiError(404, "Error Updating User");
+        return ResponseService::ApiError(404, "Error Updating Salesman");
       }
-      return ResponseService::ApiError(404, "User not found");
+      return ResponseService::ApiError(404, "Salesman not found");
     } catch (Exception $e) {
       return ResponseService::ApiError(422, [
         "message"=>"Error"

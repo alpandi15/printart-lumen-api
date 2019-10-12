@@ -77,7 +77,7 @@ class SalesmanService extends BaseController
   }
 
   public static function delete($id) {
-    $delete = Model::where('USERID', $id)->delete();
+    $delete = Model::where('SALESMANID', $id)->delete();
     if ($delete) return $delete;
     return false;
   }
