@@ -27,7 +27,7 @@ class CustomerService extends BaseController
   public static function insert($request) {
     // CREATE TRANSACTION
     $TRANSHISTORY = TransHistoryService::create([
-      "TRANSTYPE" => 45,
+      "TRANSTYPE" => 45, // ID PERSONDATA / Customer
       "BRANCHCODEID" => 1,
       "STATUS" => 1,
       "USERID" => 0

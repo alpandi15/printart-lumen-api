@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Laravel\Lumen\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
-use App\Http\Services\Users\UserService as Service;
+use App\Http\Services\Users\SalesmanService as Service;
 use App\Http\Services\Utils\Query;
 use App\Http\Services\Utils\ErrorHandlingService as ResponseService;
 

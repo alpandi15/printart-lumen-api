@@ -58,4 +58,9 @@ class Increment extends BaseController
     $GETUSERID = DB::connection('firebird')->select("EXECUTE PROCEDURE GETUSERID");
     return $GETUSERID ? $GETUSERID[0]->USERID : 0;
   }
+
+  public static function GETSALESMANID() {
+    $SALESMANID = DB::connection('firebird')->select("EXECUTE PROCEDURE GETSALESMANID");
+    return $SALESMANID ? $SALESMANID[0]->SALESMANID : 0;
+  }
 }
