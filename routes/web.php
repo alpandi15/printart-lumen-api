@@ -36,4 +36,8 @@ $router->group(['prefix' => env('API_VERSION'), 'middleware' => 'externalAuth'],
     $route->put('/salesman/{id}', 'SalesmanController@edit');
     $route->delete('/salesman/{id}', 'SalesmanController@destroy');
     $route->get('/salesman-count', 'SalesmanController@countData');
+
+    $route->get('/item/{id}', 'ItemController@findOne');
+    $route->get('/item', 'ItemController@findAll');
+    $route->get('/item-count', 'ItemController@countData');
 });
