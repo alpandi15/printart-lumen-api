@@ -11,19 +11,6 @@ use App\Http\Services\Utils\ErrorHandlingService as ResponseService;
 class UsersController extends BaseController
 {
   /**
-   * @SWG\Swagger(
-   *     basePath="/",
-   *     schemes={"http"},
-   *     @SWG\Info(
-   *         version="1.0.0",
-   *         title="API documentation Lumen",
-   *         @SWG\Contact(
-   *             email="hudaparodi@gmail.com"
-   *         ),
-   *     )
-   * )
-   */
-  /**
   * @SWG\Get(
   *   path="/annotation",
   *   summary="Version",
