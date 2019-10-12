@@ -4,20 +4,18 @@ namespace App\Http\Controllers;
 
 use Laravel\Lumen\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
-use App\Http\Services\Users\SalesmanService as Service;
+use App\Http\Services\Account\AccountService as Service;
 use App\Http\Services\Utils\Query;
 use App\Http\Services\Utils\ErrorHandlingService as ResponseService;
 
-class SalesmanController extends BaseController
+class AccountController extends BaseController
 {
   protected $fillable = [
-    'SALESMANID',
-    'LASTNAME',
-    'FIRSTNAME',
-    'JOBTITLE',
-    'SALESMANNAME',
-    'BRANCHCODEID',
-    'TRANSACTIONID'
+    'type',
+    'description',
+    'value',
+    'created_at',
+    'updated_at'
   ];
 
   function findOne($id) {
@@ -68,14 +66,22 @@ class SalesmanController extends BaseController
 
   function create(Request $request) {
     try {
-      $create = Service::insert($request->all());
-      if ($create) {
-        return ResponseService::ApiSuccess(201, [
-          "message"=>"Successfully Created Salesman"
-        ], $create);
+      $data = $request->all();
+      $checkType = Service::findByType($data['type']);
+
+      if (!$checkType) {       
+        $create = Service::insert($data);
+        if ($create) {
+            return ResponseService::ApiSuccess(201, [
+            "message"=>"Successfully Created Account"
+            ], $create);
+        }
+        return ResponseService::ApiError(422, [
+            "message"=>"Error Creating Account"
+        ], "Error"); 
       }
       return ResponseService::ApiError(422, [
-        "message"=>"Error Creating Salesman"
+          "message"=>"Type Account Already Exist!"
       ], "Error");
     } catch (Exception $e) {
       return ResponseService::ApiError(422, [
