@@ -84,6 +84,10 @@ $app->register(App\Providers\AuthServiceProvider::class);
 $app->register(App\Providers\EventServiceProvider::class);
 $app->register(Firebird\FirebirdServiceProvider::class);
 $app->register(Illuminate\Session\SessionServiceProvider::class);
+$app->register(\SwaggerLume\ServiceProvider::class);
+
+// Configure Swagger
+$app->configure('swagger-lume'); 
 
 /*
 |--------------------------------------------------------------------------
