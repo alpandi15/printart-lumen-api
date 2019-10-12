@@ -58,10 +58,18 @@ class SalesmanService extends BaseController
   }
 
   public static function update($id, $data) {
+    $FULLNAME = "";
+    if (isset($data['firstName'])) {
+      $FULLNAME = $data['firstName'];
+    }
+    if (isset($data['lastName'])) {
+      $FULLNAME = isset($data['firstName']) ? $data['firstName'].' '.$data['lastName'] : $data['lastName'];
+    }
+
     $update = Model::where('SALESMANID', $id)->update([
       "LASTNAME" => isset($data['lastName']) ? $data['lastName'] : null,
       "FIRSTNAME" => isset($data['firstName']) ? $data['firstName'] : null,
-      "SALESMANNAME" => isset($data['fullName']) ? $data['fullName'] : null,
+      "SALESMANNAME" => $FULLNAME,
     ]);
 
     if ($update) return $update;
