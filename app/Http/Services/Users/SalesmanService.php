@@ -33,12 +33,19 @@ class SalesmanService extends BaseController
     if ($TRANSHISTORY) {
       $SALESMANID = Increment::GETSALESMANID();
       $TRANSACTIONID = $TRANSHISTORY[0]->TRANSACTIONID;
+      $FULLNAME = "";
+      if (isset($data['firstName'])) {
+        $FULLNAME = $data['firstName'];
+      }
+      if (isset($data['lastName'])) {
+        $FULLNAME = isset($data['firstName']) ? $data['firstName'].' '.$data['lastName'] : $data['lastName'];
+      }
 
       $insert = new Model();
       $insert->SALESMANID = $SALESMANID;
-      $insert->LASTNAME = $data['lastName'];
-      $insert->FIRSTNAME = $data['firstName'];
-      $insert->SALESMANNAME = $data['firstName'].' '.$data['lastName'];
+      $insert->LASTNAME = isset($data['lastName']) ? $data['lastName'] : null;
+      $insert->FIRSTNAME = isset($data['firstName']) ? $data['firstName'] : null;
+      $insert->SALESMANNAME = $FULLNAME;
       $insert->JOBTITLE = 'Reception';
       $insert->BRANCHCODEID = 1;
       $insert->TRANSACTIONID = $TRANSACTIONID;
@@ -51,10 +58,10 @@ class SalesmanService extends BaseController
   }
 
   public static function update($id, $data) {
-    $update = Model::where('USERID', $id)->update([
-      "USERNAME" => isset($data['username']) ? $data['username'] : null,
-      "USERLEVEL" => isset($data['userLevel']) ? $data['userLevel'] : 0,
-      "FULLNAME" => isset($data['fullName']) ? $data['fullName'] : null,
+    $update = Model::where('SALESMANID', $id)->update([
+      "LASTNAME" => isset($data['lastName']) ? $data['lastName'] : null,
+      "FIRSTNAME" => isset($data['firstName']) ? $data['firstName'] : null,
+      "SALESMANNAME" => isset($data['fullName']) ? $data['fullName'] : null,
     ]);
 
     if ($update) return $update;
