@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateIncrementTable extends Migration
+class CreateAccountTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateIncrementTable extends Migration
      */
     public function up()
     {
-        Schema::create('ex_increment', function (Blueprint $table) {
+        Schema::create('ex_account', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('type', 150)->unique()->index();
-            $table->string('description', 150)->nullable();
-            $table->bigInteger('value')->index();
+            $table->string('type', 100)->unique()->index();
+            $table->string('description', 255)->nullable();
+            $table->string('value', 50)->index();
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateIncrementTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ex_increment');
+        Schema::dropIfExists('ex_account');
     }
 }
