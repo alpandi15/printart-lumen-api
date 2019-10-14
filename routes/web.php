@@ -15,7 +15,7 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->group(['prefix' => env('API_VERSION'), 'middleware' => 'externalAuth'], function ($route) {
+$router->group(['prefix' => env('API_VERSION', '/api/v1'), 'middleware' => 'externalAuth'], function ($route) {
     $route->get('/customer', 'CustomerController@findAll');
     $route->get('/customer/{id}', 'CustomerController@findOne');
     $route->post('/customer', 'CustomerController@create');
