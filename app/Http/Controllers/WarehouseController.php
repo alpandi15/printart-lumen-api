@@ -22,13 +22,17 @@ class WarehouseController extends BaseController
   
   function findOne($id) {
     try {
-      $data = Service::findById($id, $this->fillable);
-      if ($data) {
-        return ResponseService::ApiSuccess(200, [
-          "message"=>"Success",
-        ], $data);
+      $suspended = Service::checkSuspended($id);
+      if (!$suspended){
+        $data = Service::findById($id, $this->fillable);
+        if ($data) {
+            return ResponseService::ApiSuccess(200, [
+            "message"=>"Success",
+            ], $data);
+        }
+        return ResponseService::ApiError(404, "Warehouse not found");
       }
-      return ResponseService::ApiError(404, "User not found");
+      return ResponseService::ApiError(404, "Warehouse Suspended!");
     } catch (Exception $e) {
       return ResponseService::ApiError(422, [
         "message"=>"Error"
