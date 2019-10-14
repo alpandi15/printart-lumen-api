@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Services\Warehouse;
+namespace App\Http\Services\TermPayment;
 
 use Laravel\Lumen\Routing\Controller as BaseController;
 use App\Http\Services\Utils\Query;
-use App\Model\Accurate\WAREHS as Model;
+use App\Model\Accurate\TERMOPMT as Model;
 
-class WarehouseService extends BaseController
+class TermPaymentService extends BaseController
 {
   public static function getAll($query, $FIELDS = null) {
     $model = new Model();
@@ -16,14 +16,7 @@ class WarehouseService extends BaseController
 
   public static function findById($id, $FIELDS = null) {
     return Model::select($FIELDS ?: '*')
-    ->where('WAREHOUSEID', $id)->first();
-  }
-
-  public static function checkSuspended($id, $FIELDS = null) {
-    return Model::select($FIELDS ?: '*')
-    ->where('WAREHOUSEID', $id)
-    ->where('SUSPENDED', '!=', 0)
-    ->first();
+    ->where('TERMID', $id)->first();
   }
 
   public static function count($query, $FIELDS = null) {

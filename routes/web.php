@@ -49,4 +49,8 @@ $router->group(['prefix' => env('API_VERSION', '/api/v1'), 'middleware' => 'exte
     $route->get('/warehouse/{id}', 'WarehouseController@findOne');
     $route->get('/warehouse', 'WarehouseController@findAll');
     $route->get('/warehouse-count', 'WarehouseController@countData');
+
+    $route->get('/termpayment/{id}', 'TermPaymentController@findOne');
+    $route->get('/termpayment', 'TermPaymentController@findAll');
+    $route->get('/termpayment-count', 'TermPaymentController@countData');
 });
