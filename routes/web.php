@@ -52,4 +52,6 @@ $router->group(['prefix' => env('API_VERSION', '/api/v1'), 'middleware' => 'exte
     $route->get('/account/{id}', 'GLAccountController@findOne');
     $route->get('/account', 'GLAccountController@findAll');
     $route->get('/account-count', 'GLAccountController@countData');
+
+    $route->post('/create-transaction', 'TransactionController@createTransaction');
 });
