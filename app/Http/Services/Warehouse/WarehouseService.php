@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Services\Users;
+namespace App\Http\Services\Warehouse;
 
 use Laravel\Lumen\Routing\Controller as BaseController;
 use App\Http\Services\Utils\Query;
 use App\Model\Accurate\WAREHS as Model;
 
-class UserService extends BaseController
+class WarehouseService extends BaseController
 {
   public static function getAll($query, $FIELDS = null) {
     $model = new Model();

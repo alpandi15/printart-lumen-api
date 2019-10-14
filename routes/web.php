@@ -45,4 +45,8 @@ $router->group(['prefix' => env('API_VERSION', '/api/v1'), 'middleware' => 'exte
     $route->get('/account', 'AccountController@findAll');
     $route->put('/account/{id}', 'AccountController@edit');
     $route->get('/account-count', 'AccountController@countData');
+
+    $route->get('/warehouse/{id}', 'WarehouseController@findOne');
+    $route->get('/warehouse', 'WarehouseController@findAll');
+    $route->get('/warehouse-count', 'WarehouseController@countData');
 });
