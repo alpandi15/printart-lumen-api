@@ -43,8 +43,6 @@ $router->group(['prefix' => env('API_VERSION'), 'middleware' => 'externalAuth'],
 
     $route->get('/account/{id}', 'AccountController@findOne');
     $route->get('/account', 'AccountController@findAll');
-    $route->post('/account', 'AccountController@create');
     $route->put('/account/{id}', 'AccountController@edit');
-    $route->delete('/account/{id}', 'AccountController@destroy');
     $route->get('/account-count', 'AccountController@countData');
 });

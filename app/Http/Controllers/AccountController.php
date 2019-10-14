@@ -97,12 +97,12 @@ class AccountController extends BaseController
         $update = Service::update($id, $request->all());
         if ($update) {
           return ResponseService::ApiSuccess(200, [
-            "message"=>"Successfully Updated Salesman"
+            "message"=>"Successfully Updated Account"
           ], $update);
         }
-        return ResponseService::ApiError(422, "Error Updating Salesman");
+        return ResponseService::ApiError(422, "Error Updating Account");
       }
-      return ResponseService::ApiError(404, "Salesman not found");
+      return ResponseService::ApiError(404, "Account not found");
     } catch (Exception $e) {
       return ResponseService::ApiError(422, [
         "message"=>"Error"
