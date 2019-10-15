@@ -5,6 +5,7 @@ namespace App\Http\Services\Users;
 use Laravel\Lumen\Routing\Controller as BaseController;
 use App\Http\Services\Utils\Query;
 use App\Http\Services\Utils\Increment;
+use App\Http\Services\Users\SalesmanService;
 use App\Model\Accurate\USERS as Model;
 
 class UserService extends BaseController
@@ -22,12 +23,21 @@ class UserService extends BaseController
 
   public static function insert($data) {
     $USERID = Increment::GETUSERID();
+
+    $FULLNAME = "";
+    if (isset($data['firstName'])) {
+      $FULLNAME = $data['firstName'];
+    }
+    if (isset($data['lastName'])) {
+      $FULLNAME = isset($data['firstName']) ? $data['firstName'].' '.$data['lastName'] : $data['lastName'];
+    }
+
     $insert = new Model();
 
     $insert->USERID = $USERID;
     $insert->USERNAME = isset($data['username']) ? $data['username'] : null;
     $insert->USERLEVEL = isset($data['userLevel']) ? $data['userLevel'] : 0;
-    $insert->FULLNAME = isset($data['fullName']) ? $data['fullName'] : null;
+    $insert->FULLNAME = $FULLNAME;
     $insert->USERPASSWORD = "-1";
     $insert->SALESC = 1;
     $insert->SALESR = 1;
@@ -52,8 +62,14 @@ class UserService extends BaseController
     $insert->DOV = 1;
     $insert->DOL = 1;
     $insert->save();
-
-    if ($insert) return $insert;
+    if ($insert) {
+      SalesmanService::insert([
+        'salesmanId' => $USERID,
+        'firstName' => isset($data['username']) ? $data['username'] : null,
+        'lastName' => isset($data['lastName']) ? $data['lastName'] : null
+      ]);
+      return $insert;
+    }
     return false;
   }
 

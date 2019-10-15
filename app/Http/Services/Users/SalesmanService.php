@@ -31,7 +31,7 @@ class SalesmanService extends BaseController
     ]);
 
     if ($TRANSHISTORY) {
-      $SALESMANID = Increment::GETSALESMANID();
+      $SALESMANID = isset($data['salesmanId']) ? $data['salesmanId'] : Increment::GETSALESMANID();
       $TRANSACTIONID = $TRANSHISTORY[0]->TRANSACTIONID;
       $FULLNAME = "";
       if (isset($data['firstName'])) {
