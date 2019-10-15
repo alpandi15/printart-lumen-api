@@ -20,4 +20,16 @@ class TimeService extends BaseController
     $data = DB::connection('firebird')->select("select date 'NOW' from rdb".strval("$")."database")[0];
     return $data->CONSTANT;
   }
+
+  public static function getCurrentMounth() {
+    return date("m", strtotime(TimeService::getCurrentDate()));
+  }
+
+  public static function getCurrentYear() {
+    return date("Y", strtotime(TimeService::getCurrentDate()));
+  }
+
+  public static function getCurrentDay() {
+    return date("d", strtotime(TimeService::getCurrentDate()));
+  }
 }
