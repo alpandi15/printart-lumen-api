@@ -20,7 +20,7 @@ class CustomerService extends BaseController
   }
 
   public static function findById($id, $FIELDS = null) {
-    return PERSONDATA::select($FIELDS)
+    return PERSONDATA::select($FIELDS ?: '*')
     ->where('ID', $id)->first();
   }
 

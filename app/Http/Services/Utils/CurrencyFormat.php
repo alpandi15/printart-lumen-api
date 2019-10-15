@@ -11,4 +11,8 @@ class CurrencyFormat extends BaseController
     $abs = DB::connection('firebird')->select("EXECUTE PROCEDURE ABS($value)");
     return $abs ? $abs[0]->ANUM : 0;
   }
+
+  public static function convert($value) {
+    return number_format((float)$value, 4, '.', '');
+  }
 }

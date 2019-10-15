@@ -68,4 +68,9 @@ class Increment extends BaseController
     $ARINVID = DB::connection('firebird')->select("EXECUTE PROCEDURE GETARINV_ID_NO");
     return $ARINVID ? $ARINVID[0]->ARINVID : 0;
   }
+  
+  public static function GETGLHISTID() {
+    $GLHISTID = DB::connection('firebird')->select("EXECUTE PROCEDURE GETGLHISTID");
+    return $GLHISTID ? $GLHISTID[0]->GLHISTID : 0;
+  }
 }

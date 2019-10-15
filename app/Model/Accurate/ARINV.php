@@ -11,7 +11,7 @@ class ARINV extends Model
     public $timestamps = false;
     public $incrementing = false;
     protected $primaryKey = 'ARINVOICEID';
-    protected $dates = ['SHIPDATE','INVOICEDATE'];
+    // protected $dates = ['SHIPDATE','INVOICEDATE'];
 
     protected $fillable = [
         'PURCHASEORDERNO',
