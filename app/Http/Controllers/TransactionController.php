@@ -46,9 +46,9 @@ class TransactionController extends BaseController
     $data['totalBill'] = $this->getTotalDpp($detail);
     $data['discountNominal'] = $data['discountNominal'] + ($data['discountPercent'] / 100) * $data['totalBill'];
     
-    $ARINV = Service::insertArinv($data);
+    return $ARINV = Service::insertArinv($data);
     $ARINVDET = Service::insertArinvDet($ARINV['ARINVOICEID'], $data['warehouseId'], $detail);
-    
+
   }
   
   public function getTotalAmount($item) {

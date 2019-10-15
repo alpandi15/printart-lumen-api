@@ -8,6 +8,7 @@ use App\Http\Services\Utils\Increment;
 use App\Http\Services\Utils\TimeService;
 use App\Http\Services\Utils\CurrencyFormat;
 use App\Http\Services\Customers\CustomerService;
+use App\Http\Services\Transaction\GLHISTService;
 use App\Http\Services\Items\ItemService;
 use App\Http\Services\History\TransHistoryService;
 use App\Model\Accurate\ARINV;
@@ -61,7 +62,7 @@ class ArinvService extends BaseController
       $insert->PAYMENT = 0;
       $insert->CASHDISCOUNT = CurrencyFormat::convert($data['discountNominal']);
       $insert->TEMPLATEID = 20; //20 adalah faktur penjualan
-      $insert->ARACCOUNT = $data['salesAccountId'];
+      $insert->ARACCOUNT = $data['accountReceivable']; // GLACCOUNT penjualan
       $insert->GETFROMOTHER = 0;
       $insert->DELIVERYORDER = 0;
       $insert->GETFROMSO = 0;
@@ -73,7 +74,7 @@ class ArinvService extends BaseController
       $insert->CUSTOMERISTAXABLE = 0;
       $insert->GETFROMDO = 0;
       $insert->FREIGHT = CurrencyFormat::convert($data['freightNominal']);
-      $insert->FREIGHTACCNT = $data['freightNominal'] ? $data['freightAccount'] : null;
+      $insert->FREIGHTACCNT = $data['freightNominal'] ? $data['accountFreight'] : null;
       $insert->RECONCILED = 0;
       $insert->INVFROMSR = 0;
       $insert->TAXDATE = $CURRENTDATE;
@@ -110,7 +111,54 @@ class ArinvService extends BaseController
       $insert->DPTAX = 0;
       $insert->PROJECTAMOUNT = 0;
       $insert->save();
+      
+      if ($insert) {
+        $seq = 0;
+        GLHISTService::insert([
+          'seq' => $seq,
+          'account' => $data['accountReceivable'],
+          'totalPayment' => $insert['INVAMTBEFORETAX'],
+          'description' => 'Description',
+          'invoiceId' => $insert['ARINVOICEID'],
+          'customerId' => $data['customerId'],
+          'salesmanId' => $data['salesmanId']
+        ]);
+        if ($insert['CASHDISCOUNT'] > 0) {
+          $seq += 1;
+          GLHISTService::insert([
+            'seq' => $seq,
+            'account' => $data['accountTermDiscount'],
+            'totalPayment' => $insert['INVAMTBEFORETAX'],
+            'description' => 'Description',
+            'invoiceId' => $insert['ARINVOICEID'],
+            'customerId' => $data['customerId'],
+            'salesmanId' => $data['salesmanId']
+          ]);
+        }
 
+        if ($data['freightNominal'] > 0) {
+          $seq += 1;
+          GLHISTService::insert([
+            'seq' => $seq,
+            'account' => $data['accountFreight'],
+            'totalPayment' => $insert['INVAMTBEFORETAX'],
+            'description' => 'Description',
+            'invoiceId' => $insert['ARINVOICEID'],
+            'customerId' => $data['customerId'],
+            'salesmanId' => $data['salesmanId']
+          ]);
+        }
+        $seq += 1;
+        GLHISTService::insert([
+          'seq' => $seq,
+          'account' => $data['accountSales'],
+          'totalPayment' => $insert['INVAMTBEFORETAX'],
+          'description' => 'Description',
+          'invoiceId' => $insert['ARINVOICEID'],
+          'customerId' => $data['customerId'],
+          'salesmanId' => $data['salesmanId']
+        ]);
+      }
       return $insert;
       // $dbConn->commit();
     }
