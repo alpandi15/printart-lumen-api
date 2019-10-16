@@ -22,33 +22,44 @@ class TransactionController extends BaseController
   ];
   
   public function createTransaction (Request $request) {
-    $data = $request->all();
-    $validator = \Validator::make($data, [
-        'customerId' => 'required'
-    ]);
-    
-    if ($validator->fails()) {
+    try {
+      $data = $request->all();
+      $validator = \Validator::make($data, [
+          'customerId' => 'required'
+      ]);
+      
+      if ($validator->fails()) {
+        return ResponseService::ApiError(422, [
+          "message"=>"Error Request"
+        ], $validator->errors());
+      }
+  
+      [ "items" => $items ] = $data;
+      $detail = array_map(function ($item) {
+        return [
+          "qty" => $item['qty'],
+          "price" => $item['price'],
+          "itemNo" => $item['itemNo'],
+          "total" => $this->getTotalAmount($item)
+        ];
+      }, $items);
+  
+      $data['totalBill'] = $this->getTotalDpp($detail);
+      $data['discountNominal'] = $data['discountNominal'] + ($data['discountPercent'] / 100) * $data['totalBill'];
+      
+      $ARINV = Service::insertArinv($data);
+      $ARINVDET = Service::insertArinvDet($ARINV['ARINVOICEID'], $data['warehouseId'], $detail);
+      if ($ARINVDET) {
+        return ResponseService::ApiSuccess(200, [
+          "message"=>"Success",
+        ], $ARINV);
+      }
+      return ResponseService::ApiError(404, "Failed create transaction");
+    } catch (Exception $e) {
       return ResponseService::ApiError(422, [
-        "message"=>"Error Request"
-      ], $validator->errors());
+        "message"=>"Error"
+      ], $e);
     }
-
-    [ "items" => $items ] = $data;
-    $detail = array_map(function ($item) {
-      return [
-        "qty" => $item['qty'],
-        "price" => $item['price'],
-        "itemNo" => $item['itemNo'],
-        "total" => $this->getTotalAmount($item)
-      ];
-    }, $items);
-
-    $data['totalBill'] = $this->getTotalDpp($detail);
-    $data['discountNominal'] = $data['discountNominal'] + ($data['discountPercent'] / 100) * $data['totalBill'];
-    
-    return $ARINV = Service::insertArinv($data);
-    $ARINVDET = Service::insertArinvDet($ARINV['ARINVOICEID'], $data['warehouseId'], $detail);
-
   }
   
   public function getTotalAmount($item) {

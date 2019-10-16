@@ -118,18 +118,19 @@ class ArinvService extends BaseController
           'seq' => $seq,
           'account' => $data['accountReceivable'],
           'totalPayment' => $insert['INVAMTBEFORETAX'],
-          'description' => 'Description',
+          'description' => 'Faktur Penjualan from External : '.$insert['INVOICENO'],
           'invoiceId' => $insert['ARINVOICEID'],
           'customerId' => $data['customerId'],
           'salesmanId' => $data['salesmanId']
         ]);
+
         if ($insert['CASHDISCOUNT'] > 0) {
           $seq += 1;
           GLHISTService::insert([
             'seq' => $seq,
             'account' => $data['accountTermDiscount'],
             'totalPayment' => $insert['INVAMTBEFORETAX'],
-            'description' => 'Description',
+            'description' => 'Faktur Penjualan from External : '.$insert['INVOICENO'],
             'invoiceId' => $insert['ARINVOICEID'],
             'customerId' => $data['customerId'],
             'salesmanId' => $data['salesmanId']
@@ -141,8 +142,8 @@ class ArinvService extends BaseController
           GLHISTService::insert([
             'seq' => $seq,
             'account' => $data['accountFreight'],
-            'totalPayment' => $insert['INVAMTBEFORETAX'],
-            'description' => 'Description',
+            'totalPayment' => $insert['INVAMTBEFORETAX'] * (-1),
+            'description' => 'Faktur Penjualan from External : '.$insert['INVOICENO'],
             'invoiceId' => $insert['ARINVOICEID'],
             'customerId' => $data['customerId'],
             'salesmanId' => $data['salesmanId']
@@ -152,8 +153,8 @@ class ArinvService extends BaseController
         GLHISTService::insert([
           'seq' => $seq,
           'account' => $data['accountSales'],
-          'totalPayment' => $insert['INVAMTBEFORETAX'],
-          'description' => 'Description',
+          'totalPayment' => $insert['INVAMTBEFORETAX'] * (-1),
+          'description' => 'Faktur Penjualan from External : '.$insert['INVOICENO'],
           'invoiceId' => $insert['ARINVOICEID'],
           'customerId' => $data['customerId'],
           'salesmanId' => $data['salesmanId']
