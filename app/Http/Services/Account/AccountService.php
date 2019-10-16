@@ -64,7 +64,7 @@ class AccountService extends BaseController
     return false;
   }
 
-  public static function count($query, $FIELDS = null) {
+  public static function count($query = [], $FIELDS = null) {
     $model = new Model();
     $count = Query::countData($model, $query, $FIELDS);
     return $count;
