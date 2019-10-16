@@ -25,7 +25,14 @@ class TransactionController extends BaseController
     try {
       $data = $request->all();
       $validator = \Validator::make($data, [
-          'customerId' => 'required'
+          'customerId' => 'required',
+          'salesmanId' => 'required',
+          'warehouseId' => 'required',
+          'accountSales' => 'required',
+          'accountReceivable' => 'required',
+          'accountFreight' => 'required',
+          'accountTermDiscount' => 'required',
+          'items' => 'required'
       ]);
       
       if ($validator->fails()) {
@@ -35,6 +42,9 @@ class TransactionController extends BaseController
       }
   
       [ "items" => $items ] = $data;
+      $discountPercent = isset($data['discountPercent']) ? $data['discountPercent'] : 0;
+      $discountNominal = isset($data['discountNominal']) ? $data['discountNominal'] : 0;
+
       $detail = array_map(function ($item) {
         return [
           "qty" => $item['qty'],
@@ -45,8 +55,8 @@ class TransactionController extends BaseController
       }, $items);
   
       $data['totalBill'] = $this->getTotalDpp($detail);
-      $data['discountNominal'] = $data['discountNominal'] + ($data['discountPercent'] / 100) * $data['totalBill'];
-      
+      $data['discountNominal'] = $discountNominal + ($discountPercent / 100) * $data['totalBill'];
+
       $ARINV = Service::insertArinv($data);
       $ARINVDET = Service::insertArinvDet($ARINV['ARINVOICEID'], $data['warehouseId'], $detail);
       if ($ARINVDET) {

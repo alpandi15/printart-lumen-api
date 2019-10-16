@@ -32,7 +32,8 @@ class ArinvService extends BaseController
         "USERID" => 0
       ]);
       
-      $totalTransaction = 0;
+      $freightNominal = isset($data['freightNominal']) ? $data['freightNominal'] : 0;
+      $discountNominal = isset($data['discountNominal']) ? $data['discountNominal'] : 0;
 
       // $dbConn = DB::connection('firebird');
       // $dbConn->beginTransaction();
@@ -45,10 +46,10 @@ class ArinvService extends BaseController
       $insert->INVOICENO = Increment::createNewNumber("INVOICENO"); //invoice penjualan
       $insert->WAREHOUSEID = $data['warehouseId'];
       $insert->INVOICEDATE = $CURRENTDATE;
-      $insert->INVOICEAMOUNT = CurrencyFormat::convert(($data['totalBill']+$data['freightNominal'])-$data['discountNominal']);
+      $insert->INVOICEAMOUNT = CurrencyFormat::convert(($data['totalBill']+$freightNominal)-$discountNominal);
       $insert->PAIDAMOUNT = CurrencyFormat::convert(0); // paid 0, pembayaran melalui accurate
       $insert->RATE = CurrencyFormat::convert(1);
-      $insert->TERMDISCOUNT = CurrencyFormat::convert($data['discountNominal']);
+      $insert->TERMDISCOUNT = CurrencyFormat::convert($discountNominal);
       $insert->RETURNAMOUNT = 0;
       $insert->OWING = CurrencyFormat::convert($insert->INVOICEAMOUNT-$insert->PAIDAMOUNT);
       $insert->TERMSID = 1;
@@ -60,7 +61,7 @@ class ArinvService extends BaseController
       $insert->TAX2RATE = 0;
       $insert->GLHISTID = Increment::GETGLHISTID();
       $insert->PAYMENT = 0;
-      $insert->CASHDISCOUNT = CurrencyFormat::convert($data['discountNominal']);
+      $insert->CASHDISCOUNT = CurrencyFormat::convert($discountNominal);
       $insert->TEMPLATEID = 20; //20 adalah faktur penjualan
       $insert->ARACCOUNT = $data['accountReceivable']; // GLACCOUNT penjualan
       $insert->GETFROMOTHER = 0;
@@ -73,8 +74,8 @@ class ArinvService extends BaseController
       $insert->INCLUSIVETAX = 0;
       $insert->CUSTOMERISTAXABLE = 0;
       $insert->GETFROMDO = 0;
-      $insert->FREIGHT = CurrencyFormat::convert($data['freightNominal']);
-      $insert->FREIGHTACCNT = $data['freightNominal'] ? $data['accountFreight'] : null;
+      $insert->FREIGHT = CurrencyFormat::convert($freightNominal);
+      $insert->FREIGHTACCNT = $freightNominal ? $data['accountFreight'] : null;
       $insert->RECONCILED = 0;
       $insert->INVFROMSR = 0;
       $insert->TAXDATE = $CURRENTDATE;
@@ -137,7 +138,7 @@ class ArinvService extends BaseController
           ]);
         }
 
-        if ($data['freightNominal'] > 0) {
+        if ($freightNominal > 0) {
           $seq += 1;
           GLHISTService::insert([
             'seq' => $seq,
