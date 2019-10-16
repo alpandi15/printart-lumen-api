@@ -37,28 +37,35 @@ class CustomerService extends BaseController
       $PERSONNO = Increment::createNewNumber("PERSONNO");
       $PERSONID = Increment::GETPERSONID();
       $TRANSACTIONID = $TRANSHISTORY[0]->TRANSACTIONID;
-  
-      // CREATE USER CUSTOMER
-      $insert = new PERSONDATA();
-      $insert->ID = $PERSONID;
-      $insert->PERSONNO = env('TYPE_NUMBER').$PERSONNO;
-      $insert->PERSONTYPE = 0;
-      $insert->NAME = isset($request['name']) ? strtoupper($request['name']) : null;
-      $insert->PHONE = isset($request['phone']) ? $request['phone'] : null;
-      $insert->EMAIL = isset($request['email']) ? $request['email']: null;
-      $insert->ADDRESSLINE1 = isset($request['address']) ? $request['address'] : null;
-      $insert->PRICELEVEL = isset($request['priceLevel']) ? $request['priceLevel'] : null;
-      $insert->CITY = isset($request['city']) ? $request['city'] : null;
-      $insert->CURRENCYID = 1;
-      $insert->TRANSACTIONID = $TRANSACTIONID;
-      $insert->TERMSID = 1;
-      $insert->CUSTOMERTYPEID = 1;
-      $insert->BRANCHCODEID = 1;
-      $insert->CREDITLIMITDAYS = isset($request['creaditLimitDays']) ? $request['creaditLimitDays'] : null;
-      $insert->CREDITLIMIT = isset($request['creaditLimit']) ? CurrencyFormat::ABS($request['creaditLimit']) : 0;
-      $insert->save();
-  
-      return $insert;
+      
+      try {
+        \DB::beginTransaction();
+        // CREATE USER CUSTOMER
+        $insert = new PERSONDATA();
+        $insert->ID = $PERSONID;
+        $insert->PERSONNO = env('TYPE_NUMBER').$PERSONNO;
+        $insert->PERSONTYPE = 0;
+        $insert->NAME = isset($request['name']) ? strtoupper($request['name']) : null;
+        $insert->PHONE = isset($request['phone']) ? $request['phone'] : null;
+        $insert->EMAIL = isset($request['email']) ? $request['email']: null;
+        $insert->ADDRESSLINE1 = isset($request['address']) ? $request['address'] : null;
+        $insert->PRICELEVEL = isset($request['priceLevel']) ? $request['priceLevel'] : null;
+        $insert->CITY = isset($request['city']) ? $request['city'] : null;
+        $insert->CURRENCYID = 1;
+        $insert->TRANSACTIONID = $TRANSACTIONID;
+        $insert->TERMSID = 1;
+        $insert->CUSTOMERTYPEID = 1;
+        $insert->BRANCHCODEID = 1;
+        $insert->CREDITLIMITDAYS = isset($request['creaditLimitDays']) ? $request['creaditLimitDays'] : null;
+        $insert->CREDITLIMIT = isset($request['creaditLimit']) ? CurrencyFormat::ABS($request['creaditLimit']) : 0;
+        $insert->save();
+    
+        \DB::commit();
+        return $insert;
+      } catch (Exception $e) {
+        \DB::rollback();
+        return false;
+      }
     }
     return false;
   }
