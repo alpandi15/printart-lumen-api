@@ -10,20 +10,6 @@ use App\Http\Services\Utils\ErrorHandlingService as ResponseService;
 
 class UsersController extends BaseController
 {
-  /**
-  * @SWG\Get(
-  *   path="/annotation",
-  *   summary="Version",
-  *   @SWG\Response(
-  *     response=200,
-  *     description="Working"
-  *   ),
-  *   @SWG\Response(
-  *     response="default",
-  *     description="an ""unexpected"" error"
-  *   )
-  * )
-  */
   private $fillable = [
     'USERID',
     'USERNAME',
@@ -53,7 +39,36 @@ class UsersController extends BaseController
     'DOV',
     'DOL'
   ];
-  
+
+  /**
+  * @SWG\Get(
+  *   path="/users/{id}",
+  *   summary="Find User by Id",
+  *   tags={"Users"},
+  * 	operationId="findOne",
+  *   @SWG\Parameter(
+  *     name="id",
+  *     description="ID of user that needs to be fetched",
+  *     in="path",
+  *     required=true,
+  *     type="number"
+  *   ),
+  *   security = { { "Bearer": {} } },
+  *   @SWG\Response(
+  *     response=200,
+  *     description="Success Response",
+  *     ref="$/responses/ApiResponse",
+  *     @SWG\Property(property="data", type="object",
+  *       @SWG\Property(property="data", ref="$/definitions/User")
+  *     )
+  *   ),
+  *   @SWG\Response(
+  *     response=422,
+  *     description="Error Response",
+  *     ref="$/responses/ApiError",
+  *   )
+  * )
+  */
   function findOne($id) {
     try {
       $data = Service::findById($id, $this->fillable);
@@ -70,6 +85,34 @@ class UsersController extends BaseController
     }
   }
 
+  /**
+  * @SWG\Get(
+  *   path="/users",
+  *   summary="Find All Users with Paginate",
+  *   tags={"Users"},
+  * 	operationId="findAll",
+  *   security = { { "Bearer": {} } },
+  *   @SWG\Parameter(
+  *     name="user",
+  *     description="ID of pet that needs to be fetched",
+  *     in="body",
+  *     @SWG\Schema(ref="#/definitions/User"),
+  *   ),
+  *   @SWG\Response(
+  *     response=200,
+  *     description="Success Response",
+  *     ref="$/responses/ApiResponsePaginate",
+  *     @SWG\Property(property="data", type="object",
+  *       @SWG\Property(property="data", @SWG\Items(ref="#/definitions/User"))
+  *     )
+  *   ),
+  *   @SWG\Response(
+  *     response=422,
+  *     description="Error Response",
+  *     ref="$/responses/ApiError",
+  *   )
+  * )
+  */
   function findAll(Request $request) {
     try {
       $data = Service::getAll($request->all(), $this->fillable);

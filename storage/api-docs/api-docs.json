@@ -4,7 +4,7 @@
         "title": "API documentation for Printart Accurate",
         "version": "1.0.0"
     },
-    "basePath": "/",
+    "basePath": "/api/v1",
     "schemes": [
         "http",
         "https"
@@ -14,21 +14,296 @@
         "application/xml"
     ],
     "paths": {
-        "/annotation": {
+        "/users/{id}": {
             "get": {
-                "summary": "Version",
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Find User by Id",
+                "operationId": "findOne",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of user that needs to be fetched",
+                        "required": true,
+                        "type": "number"
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "Working"
+                        "description": "Success Response",
+                        "schema": {
+                            "property": "data",
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "meta": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "data": {
+                                    "properties": {
+                                        "USERID": {
+                                            "type": "number"
+                                        },
+                                        "USERNAME": {
+                                            "type": "string"
+                                        },
+                                        "USERLEVEL": {
+                                            "type": "string"
+                                        },
+                                        "FULLNAME": {
+                                            "type": "string"
+                                        },
+                                        "USERPASSWORD": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "type": "object"
+                        }
                     },
-                    "default": {
-                        "description": "an \"unexpected\" error"
+                    "422": {
+                        "description": "Error Response",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "meta": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "detail": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
                     }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Find All Users with Paginate",
+                "operationId": "findAll",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "body",
+                        "description": "ID of pet that needs to be fetched",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success Response",
+                        "schema": {
+                            "property": "data",
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "meta": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        },
+                                        "paginate": {
+                                            "properties": {
+                                                "keyword": {
+                                                    "type": "string"
+                                                },
+                                                "totalData": {
+                                                    "type": "number"
+                                                },
+                                                "perPage": {
+                                                    "type": "number"
+                                                },
+                                                "lastPage": {
+                                                    "type": "number"
+                                                },
+                                                "currentPage": {
+                                                    "type": "number"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "data": {
+                                    "items": {
+                                        "$ref": "#/definitions/User"
+                                    }
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "422": {
+                        "description": "Error Response",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "meta": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "detail": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        }
+    },
+    "definitions": {
+        "User": {
+            "properties": {
+                "USERID": {
+                    "type": "number"
+                },
+                "USERNAME": {
+                    "type": "string"
+                },
+                "USERLEVEL": {
+                    "type": "string"
+                },
+                "FULLNAME": {
+                    "type": "string"
+                },
+                "USERPASSWORD": {
+                    "type": "string"
                 }
             }
         }
     },
-    "definitions": {},
+    "responses": {
+        "ApiResponsePaginate": {
+            "description": "Success Response",
+            "schema": {
+                "properties": {
+                    "success": {
+                        "type": "boolean"
+                    },
+                    "meta": {
+                        "properties": {
+                            "message": {
+                                "type": "string",
+                                "example": "Success"
+                            },
+                            "paginate": {
+                                "properties": {
+                                    "keyword": {
+                                        "type": "string"
+                                    },
+                                    "totalData": {
+                                        "type": "number"
+                                    },
+                                    "perPage": {
+                                        "type": "number"
+                                    },
+                                    "lastPage": {
+                                        "type": "number"
+                                    },
+                                    "currentPage": {
+                                        "type": "number"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "ApiResponse": {
+            "description": "Success Response",
+            "schema": {
+                "properties": {
+                    "success": {
+                        "type": "boolean"
+                    },
+                    "meta": {
+                        "properties": {
+                            "message": {
+                                "type": "string",
+                                "example": "Success"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "ApiError": {
+            "description": "Success Response",
+            "schema": {
+                "properties": {
+                    "success": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "meta": {
+                        "properties": {
+                            "message": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "detail": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
     "securityDefinitions": {
         "Bearer": {
             "type": "apiKey",
