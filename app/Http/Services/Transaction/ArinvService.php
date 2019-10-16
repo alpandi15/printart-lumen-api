@@ -195,7 +195,16 @@ class ArinvService extends BaseController
     }
     return true;
   }
-
+  
+  public static function createTransaction ($data) {
+    try {
+      $ARINV = ArinvService::insertArinv($data);
+      $ARINVDET = ArinvService::insertArinvDet($ARINV['ARINVOICEID'], $ARINV['WAREHOUSEID'], $data['items']);
+      return $ARINV;
+    } catch (Exception $e) {
+      return $e;
+    }
+  }
   public static function getAll($query, $FIELDS = null) {
     $model = new ARINV();
     $data = Query::Paginate($model, $query, $FIELDS);

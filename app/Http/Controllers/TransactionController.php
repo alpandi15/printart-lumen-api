@@ -114,7 +114,7 @@ class TransactionController extends BaseController
 
       // check account
       $checkAccount = AccountService::count();
-      $checkAccReceivable = 0;
+      
       if ($checkAccount === 0) {
         return ResponseService::ApiError(422, "Account not found, run 'php artisan db:seed' in terminal"); 
       }
@@ -134,10 +134,10 @@ class TransactionController extends BaseController
       $accountReceivable = $checkAccReceivable;
 
       // check account sales
-      if(!$checkAccDisc) {
+      if((isset($data['discountPercent']) || isset($data['discountNominal'])) && !$checkAccDisc) {
         return ResponseService::ApiError(422, "The ACCOUNT_SALES_TERM_DISC is not set");
       }
-      if (!GLAccountService::findById($checkAccDisc)) {
+      if ((isset($data['discountPercent']) || isset($data['discountNominal'])) && !GLAccountService::findById($checkAccDisc)) {
         return ResponseService::ApiError(422, "ACCOUNT_SALES_TERM_DISC not found in accurate, please setting account corresponding on accurate");
       }
       $accountTermDiscount = $checkAccDisc;
@@ -152,10 +152,10 @@ class TransactionController extends BaseController
       $accountSales = $checkAccSales;
 
       // check account freight
-      if(!$checkAccFreight) {
+      if(isset($data['freightNominal']) && !$checkAccFreight) {
         return ResponseService::ApiError(422, "The ACCOUNT_FREIGHT is not set");
       }
-      if (!GLAccountService::findById($checkAccFreight)) {
+      if (isset($data['freightNominal']) && !GLAccountService::findById($checkAccFreight)) {
         return ResponseService::ApiError(422, "ACCOUNT_FREIGHT not found in accurate, please setting account corresponding on accurate");
       }
       $accountFreight = $checkAccFreight;
@@ -175,13 +175,16 @@ class TransactionController extends BaseController
       $data['accountSales'] = $accountSales;
       $data['accountFreight'] = $accountFreight;
       $data['accountTermDiscount'] = $accountTermDiscount;
-
-      $ARINV = Service::insertArinv($data);
-      $ARINVDET = Service::insertArinvDet($ARINV['ARINVOICEID'], $data['warehouseId'], $detail);
-      if ($ARINVDET) {
+      unset($data['items']);
+      $data['items'] = $detail;
+      
+      // $ARINV = Service::insertArinv($data);
+      // $ARINVDET = Service::insertArinvDet($ARINV['ARINVOICEID'], $data['warehouseId'], $detail);
+      $create = Service::createTransaction($data);
+      if ($create) {
         return ResponseService::ApiSuccess(200, [
           "message"=>"Success",
-        ], $ARINV);
+        ], $create);
       }
       return ResponseService::ApiError(404, "Failed create transaction");
     } catch (Exception $e) {
