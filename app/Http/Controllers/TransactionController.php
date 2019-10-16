@@ -14,16 +14,80 @@ use App\Http\Services\Utils\ErrorHandlingService as ResponseService;
 class TransactionController extends BaseController
 {
   private $fillable = [
-    'TERMID',
-    'DISCPC',
-    'DISCDAYS',
-    'NETDAYS',
-    'TERMNAME',
-    'COD',
-    'TERMMEMO'
+    'PURCHASEORDERNO',
+    'ARINVOICEID',
+    'CUSTOMERID',
+    'SALESMANID',
+    'INVOICENO',
+    'WAREHOUSEID',
+    'INVOICEDATE',
+    'INVOICEAMOUNT',
+    'PAIDAMOUNT',
+    'RATE',
+    'TERMDISCOUNT',
+    'RETURNAMOUNT',
+    'OWING',
+    'TERMSID',
+    'GLPERIOD',
+    'GLYEAR',
+    'PRINTED',
+    'SHIPDATE',
+    'TAX1RATE',
+    'TAX2RATE',
+    'GLHISTID',
+    'PAYMENT',
+    'CASHDISCOUNT',
+    'TEMPLATEID',
+    'ARACCOUNT',
+    'GETFROMOTHER',
+    'DELIVERYORDER',
+    'GETFROMSO',
+    'FISCALRATE',
+    'OWINGDC',
+    'TAX1AMOUNT',
+    'TAX2AMOUNT',
+    'INCLUSIVETAX',
+    'CUSTOMERISTAXABLE',
+    'GETFROMDO',
+    'FREIGHT',
+    'RECONCILED',
+    'INVFROMSR',
+    'TAXDATE',
+    'REPORTEDTAX1',
+    'REPORTEDTAX2',
+    'ROUNDEDTAX1AMOUNT',
+    'ROUNDEDTAX2AMOUNT',
+    'ISTAXPAYMENT',
+    'TRANSACTIONID',
+    'SHIPTO1',
+    'SHIPTO2',
+    'SHIPTO3',
+    'SHIPTO4',
+    'BRANCHCODEID',
+    'GETFROMQUOTE',
+    'TAXRETURNAMOUNT',
+    'RETURNNOTAX',
+    'INVAMTBEFORETAX',
+    'TAXDISCPAYMENT',
+    'DISCPAYMENT',
+    'TAXPAIDAMOUNT',
+    'BASETAXINVAMT',
+    'ISOUTSTANDING',
+    'OUTSTANDINGDO',
+    'MAXCHEQUEDATE',
+    'RATETYPE',
+    'TAX1AMOUNTDP',
+    'TAX2AMOUNTDP',
+    'ROUNDEDTAX1DP',
+    'ROUNDEDTAX2DP',
+    'PPH23AMOUNT',
+    'COGSAMOUNT',
+    'DPAMOUNT',
+    'DPTAX',
+    'PROJECTAMOUNT'
   ];
   
-  public function createTransaction (Request $request) {
+  function createTransaction (Request $request) {
     try {
       $data = $request->all();
       $validator = \Validator::make($data, [
@@ -127,7 +191,66 @@ class TransactionController extends BaseController
     }
   }
   
-  public function getTotalAmount($item) {
+  function findAll(Request $request) {
+    try {
+      $data = Service::getAll($request->all(), $this->fillable);
+      if ($data) {
+        $allowed = [
+          "keyword",
+          "totalData",
+          "perPage",
+          "lastPage",
+          "currentPage"
+        ];
+        
+        $paginate = Query::filterAllowedField($allowed, $data);
+        $dataRes = Query::filterDisallowField($data, $paginate);
+    
+        return ResponseService::ApiSuccess(200, [
+          "message"=>"Success",
+          "paginate" => $paginate
+        ], $dataRes['data']);
+      }
+      return ResponseService::ApiError(404, [
+        "message"=>"Error"
+      ], "Error");
+    } catch (Exception $e) {
+      return ResponseService::ApiError(422, [
+        "message"=>"Error"
+      ], $e);
+    }
+  }
+  
+  function findOne($id) {
+    try {
+      $data = Service::findById($id, $this->fillable);
+      if ($data) {
+        return ResponseService::ApiSuccess(200, [
+          "message"=>"Success",
+        ], $data);
+      }
+      return ResponseService::ApiError(404, "Transaction not found");
+    } catch (Exception $e) {
+      return ResponseService::ApiError(422, [
+        "message"=>"Error"
+      ], $e);
+    }
+  }
+
+  function countData(Request $request) {
+    try {
+      $data = Service::count($request->all(), $this->fillable);
+      return ResponseService::ApiSuccess(200, [
+        "message"=>"Success"
+      ], ["count"=>$data]);
+    } catch (Exception $e) {
+      return ResponseService::ApiError(422, [
+        "message"=>"Error"
+      ], $e);
+    }
+  }
+  
+  function getTotalAmount($item) {
     $total = 0;
     if ($item) {
       $total = $item['qty'] * $item['price'];
@@ -136,7 +259,7 @@ class TransactionController extends BaseController
     return $total;
   }
 
-  public function getTotalDpp($item) {
+  function getTotalDpp($item) {
     return $total = array_reduce($item, function ($prev, $next) {
       return $prev + $this->getTotalAmount($next);
     });

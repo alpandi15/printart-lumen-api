@@ -195,4 +195,22 @@ class ArinvService extends BaseController
     }
     return true;
   }
+
+  public static function getAll($query, $FIELDS = null) {
+    $model = new ARINV();
+    $data = Query::Paginate($model, $query, $FIELDS);
+    return $data;
+  }
+  
+  public static function findById($id, $FIELDS = null) {
+    return ARINV::select($FIELDS ?: '*')
+    ->where('INVOICENO', $id)
+    ->first();
+  }
+
+  public static function count($query = [], $FIELDS = null) {
+    $model = new ARINV();
+    $count = Query::countData($model, $query, $FIELDS);
+    return $count;
+  }
 }

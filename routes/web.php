@@ -58,5 +58,8 @@ $router->group(['prefix' => env('API_VERSION', '/api/v1'), 'middleware' => 'exte
     $route->put('/setting/account/{id}', 'AccountController@edit');
     $route->get('/setting/account-count', 'AccountController@countData');
 
-    $route->post('/create-transaction', 'TransactionController@createTransaction');
+    $route->post('/transaction-create', 'TransactionController@createTransaction');
+    $route->get('/transaction', 'TransactionController@findAll');
+    $route->get('/transaction/{invoice}', 'TransactionController@findOne');
+    $route->get('/transaction-count', 'TransactionController@countData');
 });
