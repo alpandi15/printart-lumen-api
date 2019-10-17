@@ -72,6 +72,20 @@ class SwaggerInfo extends BaseController
    * 			@SWG\Property(property="FULLNAME", type="string"),
    * 			@SWG\Property(property="USERPASSWORD", type="string")
    * 		),
+   *
+   * 		@SWG\Definition(
+   * 			definition="Item",
+   * 			@SWG\Property(property="ITEMNO", type="number"),
+   * 			@SWG\Property(property="ITEMDESCRIPTION", type="string"),
+   * 			@SWG\Property(property="ITEMTYPE", type="string"),
+   * 			@SWG\Property(property="NOTES", type="string"),
+   * 			@SWG\Property(property="QUANTITY", type="string"),
+   * 			@SWG\Property(property="UNITPRICE", type="string"),
+   * 			@SWG\Property(property="UNITPRICE2", type="string"),
+   * 			@SWG\Property(property="UNITPRICE3", type="string"),
+   * 			@SWG\Property(property="UNITPRICE4", type="string"),
+   * 			@SWG\Property(property="UNITPRICE5", type="string")
+   * 		),
    * )
    */
 }

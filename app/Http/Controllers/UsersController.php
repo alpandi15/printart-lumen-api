@@ -289,6 +289,9 @@ class UsersController extends BaseController
   *   tags={"Users"},
   * 	operationId="countData",
   *   security = { { "Bearer": {} } },
+  *   @SWG\Parameter(name="keyword", description="Search - eg: Name", in="query", type="string"),
+  *   @SWG\Parameter(name="from", description="Retrieve data by date from - eg: 2019-08-01", in="query", type="string"),
+  *   @SWG\Parameter(name="to", description="Retrieve data by date to - eg: 2019-08-01", in="query", type="string"),
   *   @SWG\Response(
   *     response=200,
   *     description="Success Response",

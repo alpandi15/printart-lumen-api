@@ -14,6 +14,356 @@
         "application/xml"
     ],
     "paths": {
+        "/item/{id}": {
+            "get": {
+                "tags": [
+                    "Items"
+                ],
+                "summary": "Find Item by ITEMNO",
+                "operationId": "findOne",
+                "parameters": [
+                    {
+                        "name": "ITEMNO",
+                        "in": "path",
+                        "description": "ITEMNO of item that needs to be fetched",
+                        "required": true,
+                        "type": "number"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success Response",
+                        "schema": {
+                            "property": "data",
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "meta": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "data": {
+                                    "properties": {
+                                        "ITEMNO": {
+                                            "type": "number"
+                                        },
+                                        "ITEMDESCRIPTION": {
+                                            "type": "string"
+                                        },
+                                        "ITEMTYPE": {
+                                            "type": "string"
+                                        },
+                                        "NOTES": {
+                                            "type": "string"
+                                        },
+                                        "QUANTITY": {
+                                            "type": "string"
+                                        },
+                                        "UNITPRICE": {
+                                            "type": "string"
+                                        },
+                                        "UNITPRICE2": {
+                                            "type": "string"
+                                        },
+                                        "UNITPRICE3": {
+                                            "type": "string"
+                                        },
+                                        "UNITPRICE4": {
+                                            "type": "string"
+                                        },
+                                        "UNITPRICE5": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "422": {
+                        "description": "Error Response",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "meta": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "detail": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/item": {
+            "get": {
+                "tags": [
+                    "Items"
+                ],
+                "summary": "Find All Item with Paginate",
+                "operationId": "findAll",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page - eg: 1",
+                        "type": "number"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit Data - eg: 10",
+                        "type": "number"
+                    },
+                    {
+                        "name": "keyword",
+                        "in": "query",
+                        "description": "Search - eg: Name",
+                        "type": "string"
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Sorting Field - eg: - ID (desc by id)",
+                        "type": "string"
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "Retrieve data without paginate query - eg: all",
+                        "type": "string"
+                    },
+                    {
+                        "name": "from",
+                        "in": "query",
+                        "description": "Retrieve data by date from - eg: 2019-08-01",
+                        "type": "string"
+                    },
+                    {
+                        "name": "to",
+                        "in": "query",
+                        "description": "Retrieve data by date to - eg: 2019-08-01",
+                        "type": "string"
+                    },
+                    {
+                        "name": "field",
+                        "in": "query",
+                        "description": "Retrieve data based on the input fields - eg: ID, NAME",
+                        "type": "string"
+                    },
+                    {
+                        "name": "relationship",
+                        "in": "query",
+                        "description": "View relationship of data - eg: 0",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success Response",
+                        "schema": {
+                            "property": "data",
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "meta": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        },
+                                        "paginate": {
+                                            "properties": {
+                                                "keyword": {
+                                                    "type": "string"
+                                                },
+                                                "totalData": {
+                                                    "type": "number"
+                                                },
+                                                "perPage": {
+                                                    "type": "number"
+                                                },
+                                                "lastPage": {
+                                                    "type": "number"
+                                                },
+                                                "currentPage": {
+                                                    "type": "number"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "data": {
+                                    "items": {
+                                        "$ref": "#/definitions/Item"
+                                    }
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "422": {
+                        "description": "Error Response",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "meta": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "detail": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/item-count": {
+            "get": {
+                "tags": [
+                    "Items"
+                ],
+                "summary": "Count Item Data",
+                "operationId": "countData",
+                "parameters": [
+                    {
+                        "name": "keyword",
+                        "in": "query",
+                        "description": "Search - eg: Name",
+                        "type": "string"
+                    },
+                    {
+                        "name": "from",
+                        "in": "query",
+                        "description": "Retrieve data by date from - eg: 2019-08-01",
+                        "type": "string"
+                    },
+                    {
+                        "name": "to",
+                        "in": "query",
+                        "description": "Retrieve data by date to - eg: 2019-08-01",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success Response",
+                        "schema": {
+                            "property": "data",
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "meta": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "data": {
+                                    "properties": {
+                                        "count": {
+                                            "type": "number"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "422": {
+                        "description": "Error Response",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "meta": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "detail": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
         "/users/{id}": {
             "get": {
                 "tags": [
@@ -533,6 +883,26 @@
                 ],
                 "summary": "Count User Data",
                 "operationId": "countData",
+                "parameters": [
+                    {
+                        "name": "keyword",
+                        "in": "query",
+                        "description": "Search - eg: Name",
+                        "type": "string"
+                    },
+                    {
+                        "name": "from",
+                        "in": "query",
+                        "description": "Retrieve data by date from - eg: 2019-08-01",
+                        "type": "string"
+                    },
+                    {
+                        "name": "to",
+                        "in": "query",
+                        "description": "Retrieve data by date to - eg: 2019-08-01",
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success Response",
@@ -617,6 +987,40 @@
                     "type": "string"
                 },
                 "USERPASSWORD": {
+                    "type": "string"
+                }
+            }
+        },
+        "Item": {
+            "properties": {
+                "ITEMNO": {
+                    "type": "number"
+                },
+                "ITEMDESCRIPTION": {
+                    "type": "string"
+                },
+                "ITEMTYPE": {
+                    "type": "string"
+                },
+                "NOTES": {
+                    "type": "string"
+                },
+                "QUANTITY": {
+                    "type": "string"
+                },
+                "UNITPRICE": {
+                    "type": "string"
+                },
+                "UNITPRICE2": {
+                    "type": "string"
+                },
+                "UNITPRICE3": {
+                    "type": "string"
+                },
+                "UNITPRICE4": {
+                    "type": "string"
+                },
+                "UNITPRICE5": {
                     "type": "string"
                 }
             }
