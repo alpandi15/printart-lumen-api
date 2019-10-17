@@ -86,6 +86,29 @@ class SwaggerInfo extends BaseController
    * 			@SWG\Property(property="UNITPRICE4", type="string"),
    * 			@SWG\Property(property="UNITPRICE5", type="string")
    * 		),
+   *
+   * 		@SWG\Definition(
+   * 			definition="GLAccount",
+   * 			@SWG\Property(property="GLACCOUNT", type="number"),
+   * 			@SWG\Property(property="CURRENCYID", type="string"),
+   * 			@SWG\Property(property="ACCOUNTNAME", type="string"),
+   * 			@SWG\Property(property="ACCOUNTTYPE", type="string"),
+   * 			@SWG\Property(property="SUBACCOUNT", type="string"),
+   * 			@SWG\Property(property="PARENTACCOUNT", type="string"),
+   * 			@SWG\Property(property="SUSPENDED", type="string"),
+   * 			@SWG\Property(property="MEMO", type="string"),
+   * 			@SWG\Property(property="FIRSTPARENTACCOUNT", type="string"),
+   * 			@SWG\Property(property="INDENTLEVEL", type="string"),
+   * 			@SWG\Property(property="ISFISCAL", type="string"),
+   * 			@SWG\Property(property="ISALLOCTOPROD", type="string"),
+   * 			@SWG\Property(property="TRANSACTIONID", type="string"),
+   * 			@SWG\Property(property="IMPORTEDTRANSACTIONID", type="string"),
+   * 			@SWG\Property(property="BRANCHCODEID", type="string"),
+   * 			@SWG\Property(property="LFT", type="string"),
+   * 			@SWG\Property(property="RGT", type="string"),
+   * 			@SWG\Property(property="ISROOT", type="string"),
+   * 			@SWG\Property(property="NEXTINVOICENO", type="string")
+   * 		),
    * )
    */
 }
