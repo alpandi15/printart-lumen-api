@@ -1092,6 +1092,615 @@
                 ]
             }
         },
+        "/transaction": {
+            "get": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Find All Transaction with Paginate",
+                "operationId": "findAll",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page - eg: 1",
+                        "type": "number"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit Data - eg: 10",
+                        "type": "number"
+                    },
+                    {
+                        "name": "keyword",
+                        "in": "query",
+                        "description": "Search - eg: Name",
+                        "type": "string"
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Sorting Field - eg: - ID (desc by id)",
+                        "type": "string"
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "Retrieve data without paginate query - eg: all",
+                        "type": "string"
+                    },
+                    {
+                        "name": "from",
+                        "in": "query",
+                        "description": "Retrieve data by date from - eg: 2019-08-01",
+                        "type": "string"
+                    },
+                    {
+                        "name": "to",
+                        "in": "query",
+                        "description": "Retrieve data by date to - eg: 2019-08-01",
+                        "type": "string"
+                    },
+                    {
+                        "name": "field",
+                        "in": "query",
+                        "description": "Retrieve data based on the input fields - eg: ID, NAME",
+                        "type": "string"
+                    },
+                    {
+                        "name": "relationship",
+                        "in": "query",
+                        "description": "View relationship of data - eg: 0",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success Response",
+                        "schema": {
+                            "property": "data",
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "meta": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        },
+                                        "paginate": {
+                                            "properties": {
+                                                "keyword": {
+                                                    "type": "string"
+                                                },
+                                                "totalData": {
+                                                    "type": "number"
+                                                },
+                                                "perPage": {
+                                                    "type": "number"
+                                                },
+                                                "lastPage": {
+                                                    "type": "number"
+                                                },
+                                                "currentPage": {
+                                                    "type": "number"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "data": {
+                                    "items": {
+                                        "$ref": "#/definitions/Transaction"
+                                    }
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "422": {
+                        "description": "Error Response",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "meta": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "detail": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Create Transaction to Accurate",
+                "operationId": "create",
+                "parameters": [
+                    {
+                        "name": "Request",
+                        "in": "body",
+                        "description": "Input request",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/RequestTransaction"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success Response",
+                        "schema": {
+                            "property": "data",
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "meta": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "data": {
+                                    "properties": {
+                                        "PURCHASEORDERNO": {
+                                            "type": "string"
+                                        },
+                                        "ARINVOICEID": {
+                                            "type": "string"
+                                        },
+                                        "CUSTOMERID": {
+                                            "type": "number"
+                                        },
+                                        "SALESMANID": {
+                                            "type": "number"
+                                        },
+                                        "INVOICENO": {
+                                            "type": "string"
+                                        },
+                                        "WAREHOUSEID": {
+                                            "type": "number"
+                                        },
+                                        "INVOICEDATE": {
+                                            "type": "string"
+                                        },
+                                        "INVOICEAMOUNT": {
+                                            "type": "number"
+                                        },
+                                        "PAIDAMOUNT": {
+                                            "type": "number"
+                                        },
+                                        "RATE": {
+                                            "type": "string"
+                                        },
+                                        "TERMDISCOUNT": {
+                                            "type": "number"
+                                        },
+                                        "RETURNAMOUNT": {
+                                            "type": "number"
+                                        },
+                                        "OWING": {
+                                            "type": "number"
+                                        },
+                                        "TERMSID": {
+                                            "type": "number"
+                                        },
+                                        "GLPERIOD": {
+                                            "type": "string"
+                                        },
+                                        "GLYEAR": {
+                                            "type": "string"
+                                        },
+                                        "PRINTED": {
+                                            "type": "string"
+                                        },
+                                        "SHIPDATE": {
+                                            "type": "string"
+                                        },
+                                        "TAX1RATE": {
+                                            "type": "string"
+                                        },
+                                        "TAX2RATE": {
+                                            "type": "string"
+                                        },
+                                        "GLHISTID": {
+                                            "type": "number"
+                                        },
+                                        "PAYMENT": {
+                                            "type": "string"
+                                        },
+                                        "CASHDISCOUNT": {
+                                            "type": "string"
+                                        },
+                                        "TEMPLATEID": {
+                                            "type": "string"
+                                        },
+                                        "ARACCOUNT": {
+                                            "type": "string"
+                                        },
+                                        "GETFROMOTHER": {
+                                            "type": "string"
+                                        },
+                                        "DELIVERYORDER": {
+                                            "type": "string"
+                                        },
+                                        "GETFROMSO": {
+                                            "type": "string"
+                                        },
+                                        "TRANSACTIONID": {
+                                            "type": "string"
+                                        },
+                                        "FREIGHT": {
+                                            "type": "string"
+                                        },
+                                        "ISOUTSTANDING": {
+                                            "type": "string"
+                                        },
+                                        "OUTSTANDINGDO": {
+                                            "type": "string"
+                                        },
+                                        "DPAMOUNT": {
+                                            "type": "string"
+                                        },
+                                        "DPTAX": {
+                                            "type": "string"
+                                        },
+                                        "PROJECTAMOUNT": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "422": {
+                        "description": "Error Response",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "meta": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "detail": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/transaction/{id}": {
+            "get": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Find Transaction by Invoice Number",
+                "operationId": "findOne",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Invoice Number of transaction that needs to be fetched",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success Response",
+                        "schema": {
+                            "property": "data",
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "meta": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "data": {
+                                    "properties": {
+                                        "PURCHASEORDERNO": {
+                                            "type": "string"
+                                        },
+                                        "ARINVOICEID": {
+                                            "type": "string"
+                                        },
+                                        "CUSTOMERID": {
+                                            "type": "number"
+                                        },
+                                        "SALESMANID": {
+                                            "type": "number"
+                                        },
+                                        "INVOICENO": {
+                                            "type": "string"
+                                        },
+                                        "WAREHOUSEID": {
+                                            "type": "number"
+                                        },
+                                        "INVOICEDATE": {
+                                            "type": "string"
+                                        },
+                                        "INVOICEAMOUNT": {
+                                            "type": "number"
+                                        },
+                                        "PAIDAMOUNT": {
+                                            "type": "number"
+                                        },
+                                        "RATE": {
+                                            "type": "string"
+                                        },
+                                        "TERMDISCOUNT": {
+                                            "type": "number"
+                                        },
+                                        "RETURNAMOUNT": {
+                                            "type": "number"
+                                        },
+                                        "OWING": {
+                                            "type": "number"
+                                        },
+                                        "TERMSID": {
+                                            "type": "number"
+                                        },
+                                        "GLPERIOD": {
+                                            "type": "string"
+                                        },
+                                        "GLYEAR": {
+                                            "type": "string"
+                                        },
+                                        "PRINTED": {
+                                            "type": "string"
+                                        },
+                                        "SHIPDATE": {
+                                            "type": "string"
+                                        },
+                                        "TAX1RATE": {
+                                            "type": "string"
+                                        },
+                                        "TAX2RATE": {
+                                            "type": "string"
+                                        },
+                                        "GLHISTID": {
+                                            "type": "number"
+                                        },
+                                        "PAYMENT": {
+                                            "type": "string"
+                                        },
+                                        "CASHDISCOUNT": {
+                                            "type": "string"
+                                        },
+                                        "TEMPLATEID": {
+                                            "type": "string"
+                                        },
+                                        "ARACCOUNT": {
+                                            "type": "string"
+                                        },
+                                        "GETFROMOTHER": {
+                                            "type": "string"
+                                        },
+                                        "DELIVERYORDER": {
+                                            "type": "string"
+                                        },
+                                        "GETFROMSO": {
+                                            "type": "string"
+                                        },
+                                        "TRANSACTIONID": {
+                                            "type": "string"
+                                        },
+                                        "FREIGHT": {
+                                            "type": "string"
+                                        },
+                                        "ISOUTSTANDING": {
+                                            "type": "string"
+                                        },
+                                        "OUTSTANDINGDO": {
+                                            "type": "string"
+                                        },
+                                        "DPAMOUNT": {
+                                            "type": "string"
+                                        },
+                                        "DPTAX": {
+                                            "type": "string"
+                                        },
+                                        "PROJECTAMOUNT": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "422": {
+                        "description": "Error Response",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "meta": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "detail": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/transaction-count": {
+            "get": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Count Transaction Data",
+                "operationId": "countData",
+                "parameters": [
+                    {
+                        "name": "keyword",
+                        "in": "query",
+                        "description": "Search - eg: Name",
+                        "type": "string"
+                    },
+                    {
+                        "name": "from",
+                        "in": "query",
+                        "description": "Retrieve data by date from - eg: 2019-08-01",
+                        "type": "string"
+                    },
+                    {
+                        "name": "to",
+                        "in": "query",
+                        "description": "Retrieve data by date to - eg: 2019-08-01",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success Response",
+                        "schema": {
+                            "property": "data",
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "meta": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "data": {
+                                    "properties": {
+                                        "count": {
+                                            "type": "number"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "422": {
+                        "description": "Error Response",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "meta": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "detail": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
         "/users/{id}": {
             "get": {
                 "tags": [
@@ -2202,6 +2811,115 @@
                 }
             }
         },
+        "Transaction": {
+            "properties": {
+                "PURCHASEORDERNO": {
+                    "type": "string"
+                },
+                "ARINVOICEID": {
+                    "type": "string"
+                },
+                "CUSTOMERID": {
+                    "type": "number"
+                },
+                "SALESMANID": {
+                    "type": "number"
+                },
+                "INVOICENO": {
+                    "type": "string"
+                },
+                "WAREHOUSEID": {
+                    "type": "number"
+                },
+                "INVOICEDATE": {
+                    "type": "string"
+                },
+                "INVOICEAMOUNT": {
+                    "type": "number"
+                },
+                "PAIDAMOUNT": {
+                    "type": "number"
+                },
+                "RATE": {
+                    "type": "string"
+                },
+                "TERMDISCOUNT": {
+                    "type": "number"
+                },
+                "RETURNAMOUNT": {
+                    "type": "number"
+                },
+                "OWING": {
+                    "type": "number"
+                },
+                "TERMSID": {
+                    "type": "number"
+                },
+                "GLPERIOD": {
+                    "type": "string"
+                },
+                "GLYEAR": {
+                    "type": "string"
+                },
+                "PRINTED": {
+                    "type": "string"
+                },
+                "SHIPDATE": {
+                    "type": "string"
+                },
+                "TAX1RATE": {
+                    "type": "string"
+                },
+                "TAX2RATE": {
+                    "type": "string"
+                },
+                "GLHISTID": {
+                    "type": "number"
+                },
+                "PAYMENT": {
+                    "type": "string"
+                },
+                "CASHDISCOUNT": {
+                    "type": "string"
+                },
+                "TEMPLATEID": {
+                    "type": "string"
+                },
+                "ARACCOUNT": {
+                    "type": "string"
+                },
+                "GETFROMOTHER": {
+                    "type": "string"
+                },
+                "DELIVERYORDER": {
+                    "type": "string"
+                },
+                "GETFROMSO": {
+                    "type": "string"
+                },
+                "TRANSACTIONID": {
+                    "type": "string"
+                },
+                "FREIGHT": {
+                    "type": "string"
+                },
+                "ISOUTSTANDING": {
+                    "type": "string"
+                },
+                "OUTSTANDINGDO": {
+                    "type": "string"
+                },
+                "DPAMOUNT": {
+                    "type": "string"
+                },
+                "DPTAX": {
+                    "type": "string"
+                },
+                "PROJECTAMOUNT": {
+                    "type": "string"
+                }
+            }
+        },
         "RequestUser": {
             "properties": {
                 "firstName": {
@@ -2219,6 +2937,50 @@
                 "username": {
                     "type": "string",
                     "example": "pandi95"
+                }
+            }
+        },
+        "RequestTransaction": {
+            "properties": {
+                "customerId": {
+                    "type": "number",
+                    "example": 511
+                },
+                "salesmanId": {
+                    "type": "number",
+                    "example": 511
+                },
+                "warehouseId": {
+                    "type": "number",
+                    "example": 1
+                },
+                "freightNominal": {
+                    "type": "number",
+                    "example": 0
+                },
+                "discountPercent": {
+                    "type": "number",
+                    "example": 5
+                },
+                "discountNominal": {
+                    "type": "number",
+                    "example": 1000
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "properties": {
+                            "itemNo": {
+                                "type": "string"
+                            },
+                            "qty": {
+                                "type": "string"
+                            },
+                            "price": {
+                                "type": "string"
+                            }
+                        }
+                    }
                 }
             }
         }

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Laravel\Lumen\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use App\Http\Services\Transaction\ArinvService as Service;
-use App\Http\Services\Items\ItemService;
 use App\Http\Services\Account\AccountService;
 use App\Http\Services\GLAccount\GLAccountService;
 use App\Http\Services\Utils\Query;
@@ -87,6 +86,33 @@ class TransactionController extends BaseController
     'PROJECTAMOUNT'
   ];
   
+  /**
+  * @SWG\Post(
+  *   path="/transaction",
+  *   summary="Create Transaction to Accurate",
+  *   tags={"Transaction"},
+  * 	operationId="create",
+  *   @SWG\Parameter(
+  *     name="Request",
+  *     description="Input request",
+  *     in="body",
+  *     required=true,
+  *     @SWG\Schema(ref="#/definitions/RequestTransaction")
+  *   ),
+  *   security = { { "Bearer": {} } },
+  *   @SWG\Response(
+  *     response=200,
+  *     description="Success Response",
+  *     ref="$/responses/ApiResponse",
+  *     @SWG\Property(property="data", type="object",
+  *       @SWG\Property(property="data", ref="$/definitions/Transaction")
+  *     )
+  *   ),
+  *   @SWG\Response(response=422,description="Error Response",ref="$/responses/ApiError"),
+  *   @SWG\Response(response=401,description="Unauthorized"),
+  *   @SWG\Response(response=404,description="Not Found")
+  * )
+  */
   function createTransaction (Request $request) {
     try {
       $data = $request->all();
@@ -194,6 +220,35 @@ class TransactionController extends BaseController
     }
   }
   
+  /**
+  * @SWG\Get(
+  *   path="/transaction",
+  *   summary="Find All Transaction with Paginate",
+  *   tags={"Transaction"},
+  * 	operationId="findAll",
+  *   security = { { "Bearer": {} } },
+  *   @SWG\Parameter(name="page", description="Page - eg: 1", in="query", type="number"),
+  *   @SWG\Parameter(name="limit", description="Limit Data - eg: 10", in="query", type="number"),
+  *   @SWG\Parameter(name="keyword", description="Search - eg: Name", in="query", type="string"),
+  *   @SWG\Parameter(name="sort", description="Sorting Field - eg: - ID (desc by id)", in="query", type="string"),
+  *   @SWG\Parameter(name="type", description="Retrieve data without paginate query - eg: all", in="query", type="string"),
+  *   @SWG\Parameter(name="from", description="Retrieve data by date from - eg: 2019-08-01", in="query", type="string"),
+  *   @SWG\Parameter(name="to", description="Retrieve data by date to - eg: 2019-08-01", in="query", type="string"),
+  *   @SWG\Parameter(name="field", description="Retrieve data based on the input fields - eg: ID, NAME", in="query", type="string"),
+  *   @SWG\Parameter(name="relationship", description="View relationship of data - eg: 0", in="query", type="string"),
+  *   @SWG\Response(
+  *     response=200,
+  *     description="Success Response",
+  *     ref="$/responses/ApiResponsePaginate",
+  *     @SWG\Property(property="data", type="object",
+  *       @SWG\Property(property="data", @SWG\Items(ref="#/definitions/Transaction"))
+  *     )
+  *   ),
+  *   @SWG\Response(response=422,description="Error Response",ref="$/responses/ApiError"),
+  *   @SWG\Response(response=401,description="Unauthorized"),
+  *   @SWG\Response(response=404,description="Not Found")
+  * )
+  */
   function findAll(Request $request) {
     try {
       $data = Service::getAll($request->all(), $this->fillable);
@@ -224,6 +279,33 @@ class TransactionController extends BaseController
     }
   }
   
+  /**
+  * @SWG\Get(
+  *   path="/transaction/{id}",
+  *   summary="Find Transaction by Invoice Number",
+  *   tags={"Transaction"},
+  * 	operationId="findOne",
+  *   @SWG\Parameter(
+  *     name="id",
+  *     description="Invoice Number of transaction that needs to be fetched",
+  *     in="path",
+  *     required=true,
+  *     type="string"
+  *   ),
+  *   security = { { "Bearer": {} } },
+  *   @SWG\Response(
+  *     response=200,
+  *     description="Success Response",
+  *     ref="$/responses/ApiResponse",
+  *     @SWG\Property(property="data", type="object",
+  *       @SWG\Property(property="data", ref="$/definitions/Transaction")
+  *     )
+  *   ),
+  *   @SWG\Response(response=422,description="Error Response",ref="$/responses/ApiError"),
+  *   @SWG\Response(response=401,description="Unauthorized"),
+  *   @SWG\Response(response=404,description="Not Found")
+  * )
+  */
   function findOne($id) {
     try {
       $data = Service::findById($id, $this->fillable);
@@ -240,6 +322,31 @@ class TransactionController extends BaseController
     }
   }
 
+  /**
+  * @SWG\Get(
+  *   path="/transaction-count",
+  *   summary="Count Transaction Data",
+  *   tags={"Transaction"},
+  * 	operationId="countData",
+  *   security = { { "Bearer": {} } },
+  *   @SWG\Parameter(name="keyword", description="Search - eg: Name", in="query", type="string"),
+  *   @SWG\Parameter(name="from", description="Retrieve data by date from - eg: 2019-08-01", in="query", type="string"),
+  *   @SWG\Parameter(name="to", description="Retrieve data by date to - eg: 2019-08-01", in="query", type="string"),
+  *   @SWG\Response(
+  *     response=200,
+  *     description="Success Response",
+  *     ref="$/responses/ApiResponse",
+  *     @SWG\Property(property="data", type="object",
+  *       @SWG\Property(property="data", type="object",
+  *         @SWG\Property(property="count", type="number")
+  *       )
+  *     )
+  *   ),
+  *   @SWG\Response(response=422, description="Error Response", ref="$/responses/ApiError"),
+  *   @SWG\Response(response=401,description="Unauthorized"),
+  *   @SWG\Response(response=404,description="Not Found")
+  * )
+  */
   function countData(Request $request) {
     try {
       $data = Service::count($request->all(), $this->fillable);
