@@ -120,6 +120,16 @@ class SwaggerInfo extends BaseController
    * 			@SWG\Property(property="ADDRESS3", type="string"),
    * 			@SWG\Property(property="SUSPENDED", type="string")
    * 		),
+   * 
+   * 		@SWG\Definition(
+   * 			definition="AccountPayment",
+   * 			@SWG\Property(property="id", type="number"),
+   * 			@SWG\Property(property="type", type="string"),
+   * 			@SWG\Property(property="description", type="string"),
+   * 			@SWG\Property(property="value", type="string"),
+   * 			@SWG\Property(property="created_at", type="string"),
+   * 			@SWG\Property(property="updated_at", type="string")
+   * 		),
    * )
    */
 }

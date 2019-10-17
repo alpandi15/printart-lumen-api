@@ -55,7 +55,7 @@ class ArinvService extends BaseController
       $insert->TERMSID = 1;
       $insert->GLPERIOD = $CURRENTMOUNT;
       $insert->GLYEAR = $CURRENTYEAR;
-      $insert->PRINTED = 1;
+      $insert->PRINTED = 0;
       $insert->SHIPDATE = $CURRENTDATE;
       $insert->TAX1RATE = 0;
       $insert->TAX2RATE = 0;

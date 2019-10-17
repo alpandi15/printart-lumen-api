@@ -14,6 +14,357 @@
         "application/xml"
     ],
     "paths": {
+        "/setting/account/{id}": {
+            "get": {
+                "tags": [
+                    "Setting Account Payment"
+                ],
+                "summary": "Find Account Payment by Type or Id",
+                "operationId": "findOne",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "type or id of item that needs to be fetched",
+                        "required": true,
+                        "type": "number"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success Response",
+                        "schema": {
+                            "property": "data",
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "meta": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "data": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "number"
+                                        },
+                                        "type": {
+                                            "type": "string"
+                                        },
+                                        "description": {
+                                            "type": "string"
+                                        },
+                                        "value": {
+                                            "type": "string"
+                                        },
+                                        "created_at": {
+                                            "type": "string"
+                                        },
+                                        "updated_at": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "422": {
+                        "description": "Error Response",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "meta": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "detail": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Setting Account Payment"
+                ],
+                "summary": "Update Account Payment",
+                "operationId": "edit",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id or Type of account payment",
+                        "required": true,
+                        "type": "number"
+                    },
+                    {
+                        "name": "Request",
+                        "in": "body",
+                        "description": "Input request",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "value": {
+                                    "type": "string",
+                                    "example": "110302.1"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success Response",
+                        "schema": {
+                            "property": "data",
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "meta": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "data": {
+                                    "properties": {
+                                        "USERID": {
+                                            "type": "number"
+                                        },
+                                        "USERNAME": {
+                                            "type": "string"
+                                        },
+                                        "USERLEVEL": {
+                                            "type": "string"
+                                        },
+                                        "FULLNAME": {
+                                            "type": "string"
+                                        },
+                                        "USERPASSWORD": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "422": {
+                        "description": "Error Response",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "meta": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "detail": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/setting/account": {
+            "get": {
+                "tags": [
+                    "Setting Account Payment"
+                ],
+                "summary": "Find All Type Payment with Paginate",
+                "operationId": "findAll",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page - eg: 1",
+                        "type": "number"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit Data - eg: 10",
+                        "type": "number"
+                    },
+                    {
+                        "name": "keyword",
+                        "in": "query",
+                        "description": "Search - eg: Name",
+                        "type": "string"
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Sorting Field - eg: - ID (desc by id)",
+                        "type": "string"
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "Retrieve data without paginate query - eg: all",
+                        "type": "string"
+                    },
+                    {
+                        "name": "from",
+                        "in": "query",
+                        "description": "Retrieve data by date from - eg: 2019-08-01",
+                        "type": "string"
+                    },
+                    {
+                        "name": "to",
+                        "in": "query",
+                        "description": "Retrieve data by date to - eg: 2019-08-01",
+                        "type": "string"
+                    },
+                    {
+                        "name": "field",
+                        "in": "query",
+                        "description": "Retrieve data based on the input fields - eg: ID, NAME",
+                        "type": "string"
+                    },
+                    {
+                        "name": "relationship",
+                        "in": "query",
+                        "description": "View relationship of data - eg: 0",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success Response",
+                        "schema": {
+                            "property": "data",
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "meta": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        },
+                                        "paginate": {
+                                            "properties": {
+                                                "keyword": {
+                                                    "type": "string"
+                                                },
+                                                "totalData": {
+                                                    "type": "number"
+                                                },
+                                                "perPage": {
+                                                    "type": "number"
+                                                },
+                                                "lastPage": {
+                                                    "type": "number"
+                                                },
+                                                "currentPage": {
+                                                    "type": "number"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "data": {
+                                    "items": {
+                                        "$ref": "#/definitions/AccountPayment"
+                                    }
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "422": {
+                        "description": "Error Response",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "meta": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "detail": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
         "/account/{id}": {
             "get": {
                 "tags": [
@@ -1825,6 +2176,28 @@
                     "type": "string"
                 },
                 "SUSPENDED": {
+                    "type": "string"
+                }
+            }
+        },
+        "AccountPayment": {
+            "properties": {
+                "id": {
+                    "type": "number"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "updated_at": {
                     "type": "string"
                 }
             }
