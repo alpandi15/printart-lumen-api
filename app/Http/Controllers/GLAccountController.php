@@ -39,7 +39,7 @@ class GLAccountController extends BaseController
   *   tags={"GLAccount"},
   * 	operationId="findOne",
   *   @SWG\Parameter(
-  *     name="ID",
+  *     name="id",
   *     description="ID of GL Account that needs to be fetched",
   *     in="path",
   *     required=true,

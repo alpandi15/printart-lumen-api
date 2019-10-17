@@ -30,7 +30,7 @@ class ItemController extends BaseController
   *   tags={"Items"},
   * 	operationId="findOne",
   *   @SWG\Parameter(
-  *     name="ITEMNO",
+  *     name="id",
   *     description="ITEMNO of item that needs to be fetched",
   *     in="path",
   *     required=true,

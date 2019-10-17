@@ -109,6 +109,17 @@ class SwaggerInfo extends BaseController
    * 			@SWG\Property(property="ISROOT", type="string"),
    * 			@SWG\Property(property="NEXTINVOICENO", type="string")
    * 		),
+   * 
+   * 		@SWG\Definition(
+   * 			definition="Wirehouse",
+   * 			@SWG\Property(property="WAREHOUSEID", type="number"),
+   * 			@SWG\Property(property="NAME", type="string"),
+   * 			@SWG\Property(property="DESCRIPTION", type="string"),
+   * 			@SWG\Property(property="ADDRESS1", type="string"),
+   * 			@SWG\Property(property="ADDRESS2", type="string"),
+   * 			@SWG\Property(property="ADDRESS3", type="string"),
+   * 			@SWG\Property(property="SUSPENDED", type="string")
+   * 		),
    * )
    */
 }
