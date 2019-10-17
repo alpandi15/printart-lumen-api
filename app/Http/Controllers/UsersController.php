@@ -62,11 +62,9 @@ class UsersController extends BaseController
   *       @SWG\Property(property="data", ref="$/definitions/User")
   *     )
   *   ),
-  *   @SWG\Response(
-  *     response=422,
-  *     description="Error Response",
-  *     ref="$/responses/ApiError",
-  *   )
+  *   @SWG\Response(response=422,description="Error Response",ref="$/responses/ApiError"),
+  *   @SWG\Response(response=401,description="Unauthorized"),
+  *   @SWG\Response(response=404,description="Not Found")
   * )
   */
   function findOne($id) {
@@ -92,12 +90,15 @@ class UsersController extends BaseController
   *   tags={"Users"},
   * 	operationId="findAll",
   *   security = { { "Bearer": {} } },
-  *   @SWG\Parameter(
-  *     name="user",
-  *     description="ID of pet that needs to be fetched",
-  *     in="body",
-  *     @SWG\Schema(ref="#/definitions/User"),
-  *   ),
+  *   @SWG\Parameter(name="page", description="Page - eg: 1", in="query", type="number"),
+  *   @SWG\Parameter(name="limit", description="Limit Data - eg: 10", in="query", type="number"),
+  *   @SWG\Parameter(name="keyword", description="Search - eg: Name", in="query", type="string"),
+  *   @SWG\Parameter(name="sort", description="Sorting Field - eg: - ID (desc by id)", in="query", type="string"),
+  *   @SWG\Parameter(name="type", description="Retrieve data without paginate query - eg: all", in="query", type="string"),
+  *   @SWG\Parameter(name="from", description="Retrieve data by date from - eg: 2019-08-01", in="query", type="string"),
+  *   @SWG\Parameter(name="to", description="Retrieve data by date to - eg: 2019-08-01", in="query", type="string"),
+  *   @SWG\Parameter(name="field", description="Retrieve data based on the input fields - eg: ID, NAME", in="query", type="string"),
+  *   @SWG\Parameter(name="relationship", description="View relationship of data - eg: 0", in="query", type="string"),
   *   @SWG\Response(
   *     response=200,
   *     description="Success Response",
@@ -106,11 +107,9 @@ class UsersController extends BaseController
   *       @SWG\Property(property="data", @SWG\Items(ref="#/definitions/User"))
   *     )
   *   ),
-  *   @SWG\Response(
-  *     response=422,
-  *     description="Error Response",
-  *     ref="$/responses/ApiError",
-  *   )
+  *   @SWG\Response(response=422,description="Error Response",ref="$/responses/ApiError"),
+  *   @SWG\Response(response=401,description="Unauthorized"),
+  *   @SWG\Response(response=404,description="Not Found")
   * )
   */
   function findAll(Request $request) {
@@ -143,6 +142,33 @@ class UsersController extends BaseController
     }
   }
 
+  /**
+  * @SWG\Post(
+  *   path="/users",
+  *   summary="Create User",
+  *   tags={"Users"},
+  * 	operationId="create",
+  *   @SWG\Parameter(
+  *     name="Request",
+  *     description="Input request",
+  *     in="body",
+  *     required=true,
+  *     @SWG\Schema(ref="#/definitions/RequestUser")
+  *   ),
+  *   security = { { "Bearer": {} } },
+  *   @SWG\Response(
+  *     response=200,
+  *     description="Success Response",
+  *     ref="$/responses/ApiResponse",
+  *     @SWG\Property(property="data", type="object",
+  *       @SWG\Property(property="data", ref="$/definitions/User")
+  *     )
+  *   ),
+  *   @SWG\Response(response=422,description="Error Response",ref="$/responses/ApiError"),
+  *   @SWG\Response(response=401,description="Unauthorized"),
+  *   @SWG\Response(response=404,description="Not Found")
+  * )
+  */
   function create(Request $request) {
     try {
       $create = Service::insert($request->all());
@@ -161,6 +187,34 @@ class UsersController extends BaseController
     }
   }
 
+  /**
+  * @SWG\Put(
+  *   path="/users/{id}",
+  *   summary="Update User",
+  *   tags={"Users"},
+  * 	operationId="edit",
+  *   @SWG\Parameter(name="id",description="ID of user",in="path",required=true,type="number"),
+  *   @SWG\Parameter(
+  *     name="Request",
+  *     description="Input request",
+  *     in="body",
+  *     required=true,
+  *     @SWG\Schema(ref="#/definitions/RequestUser")
+  *   ),
+  *   security = { { "Bearer": {} } },
+  *   @SWG\Response(
+  *     response=200,
+  *     description="Success Response",
+  *     ref="$/responses/ApiResponse",
+  *     @SWG\Property(property="data", type="object",
+  *       @SWG\Property(property="data", ref="$/definitions/User")
+  *     )
+  *   ),
+  *   @SWG\Response(response=422,description="Error Response",ref="$/responses/ApiError"),
+  *   @SWG\Response(response=401,description="Unauthorized"),
+  *   @SWG\Response(response=404,description="Not Found")
+  * )
+  */
   function edit(Request $request, $id) {
     try {
       $find = Service::findById($id);
@@ -181,6 +235,33 @@ class UsersController extends BaseController
     }
   }
 
+  /**
+  * @SWG\Delete(
+  *   path="/users/{id}",
+  *   summary="Delete User",
+  *   tags={"Users"},
+  * 	operationId="destroy",
+  *   @SWG\Parameter(
+  *     name="id",
+  *     description="ID of user",
+  *     in="path",
+  *     required=true,
+  *     type="number"
+  *   ),
+  *   security = { { "Bearer": {} } },
+  *   @SWG\Response(
+  *     response=200,
+  *     description="Success Response",
+  *     ref="$/responses/ApiResponse",
+  *     @SWG\Property(property="data", type="object",
+  *       @SWG\Property(property="data", type="string")
+  *     )
+  *   ),
+  *   @SWG\Response(response=422,description="Error Response",ref="$/responses/ApiError"),
+  *   @SWG\Response(response=401,description="Unauthorized"),
+  *   @SWG\Response(response=404,description="Not Found")
+  * )
+  */
   function destroy($id) {
     try {
       $data = Service::findById($id);
@@ -201,6 +282,28 @@ class UsersController extends BaseController
     }
   }
 
+  /**
+  * @SWG\Get(
+  *   path="/users-count",
+  *   summary="Count User Data",
+  *   tags={"Users"},
+  * 	operationId="countData",
+  *   security = { { "Bearer": {} } },
+  *   @SWG\Response(
+  *     response=200,
+  *     description="Success Response",
+  *     ref="$/responses/ApiResponse",
+  *     @SWG\Property(property="data", type="object",
+  *       @SWG\Property(property="data", type="object",
+  *         @SWG\Property(property="count", type="number")
+  *       )
+  *     )
+  *   ),
+  *   @SWG\Response(response=422, description="Error Response", ref="$/responses/ApiError"),
+  *   @SWG\Response(response=401,description="Unauthorized"),
+  *   @SWG\Response(response=404,description="Not Found")
+  * )
+  */
   function countData(Request $request) {
     try {
       $data = Service::count($request->all(), $this->fillable);
