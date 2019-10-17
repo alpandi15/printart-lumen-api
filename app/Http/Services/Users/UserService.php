@@ -74,13 +74,27 @@ class UserService extends BaseController
   }
 
   public static function update($id, $data) {
+    $FULLNAME = "";
+    if (isset($data['firstName'])) {
+      $FULLNAME = $data['firstName'];
+    }
+    if (isset($data['lastName'])) {
+      $FULLNAME = isset($data['firstName']) ? $data['firstName'].' '.$data['lastName'] : $data['lastName'];
+    }
+    
     $update = Model::where('USERID', $id)->update([
       "USERNAME" => isset($data['username']) ? $data['username'] : null,
       "USERLEVEL" => isset($data['userLevel']) ? $data['userLevel'] : 0,
-      "FULLNAME" => isset($data['fullName']) ? $data['fullName'] : null,
+      "FULLNAME" => $FULLNAME,
     ]);
-
-    if ($update) return $update;
+    
+    if ($update) {
+      return SalesmanService::update($id, [
+        'firstName' => isset($data['firstName']) ? $data['firstName'] : null,
+        'lastName' => isset($data['lastName']) ? $data['lastName'] : null
+      ]);
+      return $update;
+    }
     return false;
   }
 
