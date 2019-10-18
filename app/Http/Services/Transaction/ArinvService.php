@@ -198,10 +198,13 @@ class ArinvService extends BaseController
   
   public static function createTransaction ($data) {
     try {
+      DB::beginTransaction();
       $ARINV = ArinvService::insertArinv($data);
       $ARINVDET = ArinvService::insertArinvDet($ARINV['ARINVOICEID'], $ARINV['WAREHOUSEID'], $data['items']);
+      DB::commit();
       return $ARINV;
     } catch (Exception $e) {
+      DB::rollback();
       return $e;
     }
   }
