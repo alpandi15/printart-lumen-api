@@ -11,9 +11,9 @@ composer install
 - Create new database mysql
 
 **Environment**
-- Create file .env in this folder
-- Copy from .env.example to .env
-- Follow this code in .env
+- Create file `.env` in this folder
+- Copy from `.env.example` to `.env`
+- Follow this code in `.env`
 
 ```
 API_VERSION=/api/v1
@@ -37,7 +37,7 @@ TYPE_NUMBER=E <number_type_invoice>
 
 **Migrate Database**
 
-After change .env file
+After change `.env` file
 
 ```sh
 php artisan migrate
