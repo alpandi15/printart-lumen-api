@@ -10,4 +10,20 @@ class PERSONDATA extends Model {
   public $timestamps = false;
   public $incrementing = false;
   protected $primaryKey = 'ID';
+
+  protected $fillable = [
+    'ID',
+    'PERSONNO',
+    'NAME',
+    'PERSONTYPE',
+    'PHONE',
+    'EMAIL',
+    'ADDRESSLINE1',
+    'PRICELEVEL',
+    'CITY',
+    'TRANSACTIONID',
+    'CUSTOMERTYPEID',
+    'CREDITLIMITDAYS',
+    'CREDITLIMIT'
+  ];
 }

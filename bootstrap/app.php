@@ -59,13 +59,14 @@ $app->singleton(
 |
 */
 
-// $app->middleware([
-//    App\Http\Middleware\ExampleMiddleware::class
-// ]);
+$app->middleware([
+   App\Http\Middleware\ExampleMiddleware::class
+]);
 
-// $app->routeMiddleware([
-//     'auth' => App\Http\Middleware\Authenticate::class,
-// ]);
+$app->routeMiddleware([
+    'auth' => App\Http\Middleware\Authenticate::class,
+    'externalAuth' => App\Http\Middleware\ExternalAuthenticate::class,
+]);
 
 /*
 |--------------------------------------------------------------------------
@@ -82,6 +83,11 @@ $app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\AuthServiceProvider::class);
 $app->register(App\Providers\EventServiceProvider::class);
 $app->register(Firebird\FirebirdServiceProvider::class);
+$app->register(Illuminate\Session\SessionServiceProvider::class);
+$app->register(\SwaggerLume\ServiceProvider::class);
+
+// Configure Swagger
+$app->configure('swagger-lume'); 
 
 /*
 |--------------------------------------------------------------------------
