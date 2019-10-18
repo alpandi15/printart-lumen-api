@@ -51,6 +51,12 @@ php artisan db:seed
 php -S localhost:8000 -t public
 ```
 
+## Documentation
+
+```
+http://<host>:<port>/api/documentation
+```
+
 ## SOURCE PROCEDURE DB ACCURATE
 
 GET ARINVID in tbl ARINV
