@@ -1,3 +1,12 @@
+##Installation
+
+To install this app:
+
+```sh
+git clone https://gitlab.com/printartindonesia/printart_apis_accurate5.git
+composer install
+
+
 ## SOURCE PROCEDURE DB ACCURATE
 > GET ARINVID in tbl ARINV
 - SELECT GEN_ID(ARINV_GEN, 1 ) FROM RDB$DATABASE;
