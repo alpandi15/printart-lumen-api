@@ -209,14 +209,16 @@ class ArinvService extends BaseController
     }
   }
   public static function getAll($query, $FIELDS = null) {
+    $include = ['arinvdet', 'salesman'];
     $model = new ARINV();
-    $data = Query::Paginate($model, $query, $FIELDS);
+    $data = Query::Paginate($model, $query, $FIELDS, $include);
     return $data;
   }
   
   public static function findById($id, $FIELDS = null) {
     return ARINV::select($FIELDS ?: '*')
     ->where('INVOICENO', $id)
+    ->with(['arinvdet', 'salesman'])
     ->first();
   }
 

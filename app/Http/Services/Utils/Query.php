@@ -22,7 +22,7 @@ class Query extends BaseController
     return array_diff($query, $filtered);
   }
 
-  public static function Paginate($model, $query = null, $fields = null) {
+  public static function Paginate($model, $query = null, $fields = null, $include = []) {
     $allowed = [
       'page',
       'limit',
@@ -70,6 +70,7 @@ class Query extends BaseController
     $data = $type !== 'all' ? $data->limit($limit) : $data;
     $data = $sort ? $data->orderByRaw($sort) : $data;
     $data = $data->select($field ? $field : '*');
+    $data = $relationship ? $data->with($include) : $data;
     $resData = $data->get();
 
     $paginate = [
